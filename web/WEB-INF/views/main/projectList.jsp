@@ -171,7 +171,7 @@ function selectAll(check){
 
 function doExport(){
   var url="/order/export.xls";
-  var f = document.forms(0);
+  var f = document.forms[0];
   url+="?beginDate="+f.beginDate.value;
   url+="&endDate="+f.endDate.value;
   url+="&isOK="+f.isOK.value;
