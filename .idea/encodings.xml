@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/com/asc/dao/User.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/com/asc/dao/UserDAO.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/com/asc/web/ctl/HelloController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/com/order/controller/ProjectController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/com/order/controller/ReportController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/com/order/servlet/ExportServlet.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/com/order/util/WebUtil.java" charset="UTF-8" />
+  </component>
+</project>
