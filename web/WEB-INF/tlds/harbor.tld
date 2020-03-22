@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.2</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>harbor</shortname>
+	<uri>/WEB-INF/cms.tld</uri>
+
+	<tag>
+		<name>link</name>
+		<tagclass>com.order.tag.LinkBarTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>输出分页链接,页面必须实现gotoPage(n)函数</info>
+		<attribute>
+			<name>pageIndex</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>recordCount</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>pageSize</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+
+	<tag>
+
+		<name>calendar</name>
+		<tagclass>com.order.tag.CalendarTag</tagclass>
+		<bodycontent>empty</bodycontent>
+
+		<attribute>
+			<name>property</name>
+			<required>true</required>
+		</attribute>
+
+		<attribute>
+			<name>allowClear</name>
+			<required>false</required>
+		</attribute>
+
+	</tag>
+
+
+</taglib>

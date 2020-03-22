@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!--  注册框架级的自定义属性编辑器 -->
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <property name="webBindingInitializer">
+        <bean class="com.order.controller.MyBindingInitializer"/>
+    </property>
+	</bean>
+
+
+	<!-- 定义Spring MVC 的模板文件 -->
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<!-- 支持JSTL -->
+		<property name="prefix" value="WEB-INF/views/" />
+		<!-- 模板的路径 -->
+		<property name="suffix" value=".jsp" />
+		<!-- 模板文件的后缀-->
+	</bean>
+
+	<!-- 依赖注入到HelloController这个类 -->
+
+	<bean id="helloController" class="com.asc.web.ctl.HelloController">
+			
+		<!-- 设定viewName属性的值为hello 
+		<property name="viewName">
+			<value>hello</value>
+		</property>
+		-->
+		<property name="userDao"><!-- 设置属性userDao为Hibernate的Dao对象 -->
+			<ref bean="userDAOProxy" /><!-- 注入一个bean(定义在Hibernate的配置文件里) -->
+		</property>
+	</bean>
+	
+	<bean id="projectController" class="com.order.controller.ProjectController">
+		<property name="dao"><!-- 设置属性dao对象 -->
+			<ref bean="genralDao" /><!-- 注入一个bean(定义在Hibernate的配置文件里) -->
+		</property>
+	</bean>
+	
+	<bean id="reportController" class="com.order.controller.ReportController">
+		<property name="dao"><!-- 设置属性dao对象 -->
+			<ref bean="jdbcService" /><!-- 注入一个bean(定义在Hibernate的配置文件里) -->
+		</property>
+	</bean>
+</beans>

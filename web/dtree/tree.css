@@ -1,0 +1,57 @@
+.dTree {
+	font-family: Arial, sans-serif;
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 20px;
+	PADDING-BOTTOM: 0px;
+	PADDING-TOP: 20px
+}
+
+.dTree DIV {
+	FONT-SIZE: 12px
+}
+
+.dTree A.label {
+	LEFT: 3px;
+	FONT: 11px Arial;
+	CURSOR: default;
+	COLOR: #000000;
+	POSITION: relative;
+	TEXT-DECORATION: none
+}
+
+.dTree A.label:hover {
+	COLOR: #3366cc;
+	TEXT-DECORATION: underline
+}
+
+.dTree A.selected {
+	BACKGROUND: #004080;
+	COLOR: #ffffff
+}
+
+.dTree A.selected:hover {
+	BACKGROUND: #004080;
+	COLOR: #ffffff
+}
+
+.dTree INPUT.checkbox {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	WIDTH: 14px;
+	PADDING-TOP: 0px;
+	HEIGHT: 14px;
+	moz-user-focus: none
+}
+
+dTree INPUT.radio {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	WIDTH: 14px;
+	PADDING-TOP: 0px;
+	HEIGHT: 14px;
+	moz-user-focus: none
+}
