@@ -54,13 +54,13 @@ public class CalendarTag extends TagSupport {
 			StringBuffer sb = new StringBuffer("<img src=\"");
 				sb.append(request.getContextPath())
 				.append(calendarImgPath)
-				.append("\" onclick=\"popUpCalendar(this,document.forms(0).")
+				.append("\" onclick=\"popUpCalendar(this,document.forms[0].")
 				.append(property).append(",'yyyy-mm-dd')\" />");
 
 			if(allowClear){
 				sb.append("<img src=\"").append(request.getContextPath())
 				  .append(clearImgPath)
-				  .append("\" onclick=\"document.forms(0).").append(property)
+				  .append("\" onclick=\"document.forms[0].").append(property)
 				  .append(".value='';\" />");
 			}
 				

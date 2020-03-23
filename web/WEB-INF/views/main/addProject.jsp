@@ -21,7 +21,7 @@
 	}
 	.label{
 			margin-top:1px;
-			width:25%;
+			width:120px;
 			background-color:#eeeeee;
 			text-align:right;
 			padding-top:6px;
@@ -29,6 +29,17 @@
 			font-size:14px;
 			height:25px;
 			float:left;
+	}
+
+	.content{
+		margin-top:1px;
+		width:280px;
+		text-align:right;
+		padding-top:6px;
+		padding-right:2px;
+		font-size:14px;
+		height:25px;
+		float:left;
 	}
 	
 	.buttonBar{
@@ -58,48 +69,48 @@
 </head>
 <body>
 	<h:form commandName="project" modelAttribute="project" action="saveProject.do">
-		<table align="center" width="780" class="inputTable">
+		<table align="center" width="800px" class="inputTable">
 			<tr>
 				<td class="bar" colspan="4"><b>录入资料</b></td>
 			</tr>	
 			<tr>
-				<td width="15%" class="label">工程名称</td>
-				<td width="35%"><h:input path="name" cssStyle="width:100%"/></td>
-				<td width="15%" class="label">工程日期</td>
-				<td width="35%">
+				<td class="label">工程名称</td>
+				<td class="content"><h:input path="name" cssStyle="width:100%"/></td>
+				<td class="label">工程日期</td>
+				<td class="content">
 					<h:input path="projectDate" size="10"/>
 					<harbor:calendar property="projectDate"/>
 				</td>
 			</tr>
 			<tr>
 				<td class="label">工程总价</td>
-				<td><h:input path="cost" cssStyle="text-align:right" readonly="true"/></td>
+				<td class="content"><h:input path="cost" cssStyle="text-align:right" readonly="true"/></td>
 				<td class="label">已收款</td>
-				<td><h:input path="costPaid" cssStyle="text-align:right" readonly="true"/></td>
+				<td class="content"><h:input path="costPaid" cssStyle="text-align:right" readonly="true"/></td>
 			</tr>
 			<tr>
 				<td class="label">加工费</td>
-				<td><h:input path="processCost" cssStyle="text-align:right"/></td>
+				<td class="content"><h:input path="processCost" cssStyle="text-align:right"/></td>
 				<td class="label">材料费</td>
-				<td><h:input path="materialCost" cssStyle="text-align:right"/></td>
+				<td class="content"><h:input path="materialCost" cssStyle="text-align:right"/></td>
 			</tr>
 			<tr>
 				<td class="label">开工日期</td>
-				<td><h:input path="beginDate" size="10"/><harbor:calendar property="beginDate"/></td>
+				<td class="content"><h:input path="beginDate" size="10"/><harbor:calendar property="beginDate"/></td>
 				<td class="label">完工日期</td>
-				<td><h:input path="finishDate" size="10"/><harbor:calendar property="finishDate"/></td>
+				<td class="content"><h:input path="finishDate" size="10"/><harbor:calendar property="finishDate"/></td>
 			</tr>
 			<tr>
 				<td class="label">单号</td>
-				<td><h:input path="serrialNo"/></td>
+				<td class="content"><h:input path="serrialNo"/></td>
 				<td class="label">客户</td>
-				<td><h:input path="clientName"/></td>
+				<td class="content"><h:input path="clientName"/></td>
 			</tr>
 			<tr>
 				<td class="label">客户电话</td>
-				<td><h:input path="clientPhone" cssStyle="width:100%"/></td>
+				<td class="content"><h:input path="clientPhone" cssStyle="width:100%"/></td>
 				<td class="label">客户地址</td>
-				<td><h:input path="clientAddress" cssStyle="width:100%"/></td>
+				<td class="content"><h:input path="clientAddress" cssStyle="width:100%"/></td>
 			</tr>
 			<tr>
 				<td class="label">备注</td>
@@ -156,7 +167,7 @@
 	</h:form>
 </body>
 <script type="text/javascript">
-var f = document.forms(0);
+var f = document.forms[0];
 	function doAdd(){
 		
 		

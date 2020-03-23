@@ -4,6 +4,7 @@
     <data-source source="LOCAL" name="order@192.168.146.128" uuid="d0ec496b-9a3e-4e54-9547-816264b98b7e">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://192.168.146.128:3306/order</jdbc-url>
       <driver-properties>

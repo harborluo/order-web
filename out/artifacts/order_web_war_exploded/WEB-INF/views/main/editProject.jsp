@@ -195,7 +195,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</h:form>
 </body>
 <script type="text/javascript">
-		var f = document.forms(0);
+		var f = document.forms[0];
 	function doUpdate(){
 		
 		if(checkNotEmpty(f.name,"¹¤³ÌÃû³Æ")==false){

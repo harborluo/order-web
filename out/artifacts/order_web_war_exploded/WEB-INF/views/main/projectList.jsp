@@ -144,20 +144,20 @@ function doAdd(){
 }
 
 function gotoPage(n){
-	document.forms(0).page.value=n;
-	document.forms(0).submit();
+	document.forms[0].page.value=n;
+	document.forms[0].submit();
 }
 
 function doSearch(){
-	document.forms(0).submit();
+	document.forms[0].submit();
 }
 
 function doDel(){
 	if(confirm("确实要删除数据吗？")==false){
 		return;
 	}
-	document.forms(0).action="delProject.do";
-	document.forms(0).submit();
+	document.forms[0].action="delProject.do";
+	document.forms[0].submit();
 }
 
 window.onLoad = formatTable('dataTable');
