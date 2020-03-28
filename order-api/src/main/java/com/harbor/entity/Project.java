@@ -1,6 +1,7 @@
 package com.harbor.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ import java.util.Date;
 @TableName(value = "project")
 public class Project {
 
-    @TableField(value = "id")
+    @TableId("id")
     private int id;
 
     @TableField(value = "name")
