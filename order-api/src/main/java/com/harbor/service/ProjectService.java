@@ -19,5 +19,7 @@ public interface ProjectService extends IService<Project> {
     IPage<Project> queryProjectByPage(int page, int pageSize,
                                       String projectFromDate, String projectToDate,
                                       String payFromDate, String payToDate,
+                                      String serialNo,
+                                      String isValidate,
                                       String isDealDone);
 }

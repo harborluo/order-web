@@ -28,6 +28,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public IPage<Project> queryProjectByPage(int page, int pageSize,
                                              String projectFromDate, String projectToDate,
                                              String payFromDate, String payToDate,
+                                             String serialNo,
+                                             String isValidate,
                                              String isDealDone) {
         QueryWrapper<Project> entityWrapper = new QueryWrapper<Project>();
 
@@ -47,7 +49,19 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             entityWrapper.apply("exists (select 1 from project_pay pp where project.id = pp.project_id and pp.pay_date <= {0})", payToDate);
         }
 
+        if (!StringUtils.isEmpty(serialNo)){
+            entityWrapper.like("serrial_no", "%" + serialNo + "%");
+        }
 
+        if ("N".equals(isValidate)) {
+            entityWrapper.apply(" id in ( select project_id from project_pay pp where pp.pay is null or pp.pay_date is null )");
+        }
+
+        if ("yes".equals(isDealDone)) {
+            entityWrapper.apply("project_cost <= cost_paid");
+        } else if ("no".equals(isDealDone)) {
+            entityWrapper.apply("cost > cost_paid or cost_paid is null or cost = 0");
+        }
 
         entityWrapper.orderByDesc("project_date");
 

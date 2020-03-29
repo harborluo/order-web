@@ -7,16 +7,15 @@ import com.harbor.module.ResponseResult;
 import com.harbor.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
 
 /**
  * Created by harbor on 2020/3/28.
  */
+@Validated
 @RestController
 public class ProjectController {
 
@@ -31,20 +30,39 @@ public class ProjectController {
             @RequestParam(value = "projectToDate", required = false) String projectToDate,
             @RequestParam(value = "payFromDate", required = false) String payFromDate,
             @RequestParam(value = "payToDate", required = false) String payToDate,
-            @RequestParam(value = "isDealDone", required = false) String isDealDone){
-
+            @RequestParam(value = "serialNo", required = false) String serialNo,
+            @RequestParam(value = "isDealDone", required = false) String isDealDone,
+            @RequestParam(value = "isValidate", required = false) String isValidate){
 
         IPage<Project> result = service.queryProjectByPage(page, pageSize, projectFromDate, projectToDate,
-                payFromDate, payToDate, isDealDone);
+                payFromDate, payToDate, serialNo, isValidate, isDealDone);
 
         return  ResponseResult.ok(result);
     }
 
-    @GetMapping("/projects/{id}")
+    @GetMapping("/project/{id}")
     public ResponseResult<Project> retrieveProjectById(@PathVariable("id") int id){
 
         Project project = service.getById(id);
 
         return  ResponseResult.ok(project);
+    }
+
+    @PostMapping("/project")
+    public ResponseResult<Project> createProject(@RequestBody String requestBody){
+
+        return  ResponseResult.ok(null);
+    }
+
+    @PutMapping("/project")
+    public ResponseResult<Project> updateProject(@RequestBody String requestBody){
+
+        return  ResponseResult.ok(null);
+    }
+
+    @DeleteMapping("/project/{id}")
+    public ResponseResult<Void> deleteProject(@PathVariable("id") Integer id) {
+
+        return ResponseResult.ok();
     }
 }
