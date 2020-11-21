@@ -66,37 +66,37 @@ public class LinkBarTag extends TagSupport {
 		
 		StringBuffer linkText = new StringBuffer();
 		
-		linkText.append("µÚ<font color='red'><b>").append(currPage).append("</b></font>");
-		linkText.append("/<font color='red'><b>").append(totalPage).append("</b></font>Ò³&nbsp;");
-		linkText.append("Ã¿Ò³<font color='red'><b>").append(size).append("</b></font>Ìõ&nbsp;");
-		linkText.append("¹²<font color='red'><b>").append(count).append("</b></font>Ìõ&nbsp;");
-//		linkText.append("·ÖÒ³£º&nbsp;");
+		linkText.append("ç¬¬<font color='red'><b>").append(currPage).append("</b></font>");
+		linkText.append("/<font color='red'><b>").append(totalPage).append("</b></font>é¡µ&nbsp;");
+		linkText.append("æ¯é¡µ<font color='red'><b>").append(size).append("</b></font>æ¡&nbsp;");
+		linkText.append("å…±<font color='red'><b>").append(count).append("</b></font>æ¡&nbsp;");
+//		linkText.append("åˆ†é¡µï¼š&nbsp;");
 		
 		if(currPage!=1){
-			linkText.append("<a href='javascript:gotoPage(1)'><b>Ê×Ò³</b></a>&nbsp;");
+			linkText.append("<a href='javascript:gotoPage(1)'><b>é¦–é¡µ</b></a>&nbsp;");
 		}else{
-			linkText.append("<font color='gray'><b>Ê×Ò³</b></font>&nbsp;");
+			linkText.append("<font color='gray'><b>é¦–é¡µ</b></font>&nbsp;");
 		}
 		
 		if(currPage>1){
-			linkText.append("<a href='javascript:gotoPage(").append(currPage-1).append(")'><b>ÉÏÒ»Ò³</b></a>&nbsp;");
+			linkText.append("<a href='javascript:gotoPage(").append(currPage-1).append(")'><b>ä¸Šä¸€é¡µ</b></a>&nbsp;");
 		}else{
-			linkText.append("<font color='gray'><b>ÉÏÒ»Ò³</b></font>&nbsp;");
+			linkText.append("<font color='gray'><b>ä¸Šä¸€é¡µ</b></font>&nbsp;");
 		}
 		
 		if(currPage<totalPage){
-			linkText.append("<a href='javascript:gotoPage(").append(currPage+1).append(")'><b>ÏÂÒ»Ò³</b></a>&nbsp;");
+			linkText.append("<a href='javascript:gotoPage(").append(currPage+1).append(")'><b>ä¸‹ä¸€é¡µ</b></a>&nbsp;");
 		}else{
-			linkText.append("<font color='gray'><b>ÏÂÒ»Ò³</b></font>&nbsp;");
+			linkText.append("<font color='gray'><b>ä¸‹ä¸€é¡µ</b></font>&nbsp;");
 		}
 		
 		if(currPage!=totalPage&&totalPage!=0){
-			linkText.append("<a href='javascript:gotoPage(").append(totalPage).append(")'><b>Î²Ò³</b></a>&nbsp;");
+			linkText.append("<a href='javascript:gotoPage(").append(totalPage).append(")'><b>å°¾é¡µ</b></a>&nbsp;");
 		}else{
-			linkText.append("<font color='gray'><b>Î²Ò³</b></font>&nbsp;");
+			linkText.append("<font color='gray'><b>å°¾é¡µ</b></font>&nbsp;");
 		}
 		
-		linkText.append("×ªµ½µÚ&nbsp;<select onchange='javascript:gotoPage(this.value)'>");
+		linkText.append("è½¬åˆ°ç¬¬&nbsp;<select onchange='javascript:gotoPage(this.value)'>");
 		
 		for(int i=1;i<=totalPage;i++){
 			linkText.append("<option value='").append(i).append("'")
@@ -104,12 +104,12 @@ public class LinkBarTag extends TagSupport {
 			.append(i).append("</option>");
 		}
 		
-		linkText.append("</select>&nbsp;Ò³");
+		linkText.append("</select>&nbsp;é¡µ");
 		
 		try {
 			pageContext.getOut().write(linkText.toString());
 		} catch (IOException e) {
-			logger.warn("Êä³ö·Ö²¼Á¬½Ó³ö´í:"+e.getMessage());
+			logger.warn("è¾“å‡ºåˆ†å¸ƒè¿æ¥å‡ºé”™:"+e.getMessage());
 
 		}
 
