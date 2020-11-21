@@ -59,7 +59,7 @@ public class ProjectController {
 		if((WebUtil.isEmpty(beginDate)&&WebUtil.isEmpty(endDate))==false){
 			hasCond = true;
 			if("projectDate".equals(dateType)){
-			//°´¹¤³ÌÈÕÆÚ²éÑ¯
+			//æŒ‰å·¥ç¨‹æ—¥æœŸæŸ¥è¯¢
 				if(WebUtil.isEmpty(beginDate)==false&&WebUtil.isEmpty(endDate)){
 					hql +=" where p.projectDate>=:date";
 					params.put("date", WebUtil.parseDate(beginDate));
@@ -72,7 +72,7 @@ public class ProjectController {
 					params.put("date2", WebUtil.parseDate(endDate));
 				}
 			}else{
-			//°´ÊÕ¿îÈÕÆÚ²éÑ¯	
+			//æŒ‰æ”¶æ¬¾æ—¥æœŸæŸ¥è¯¢	
 				if(WebUtil.isEmpty(beginDate)==false&&WebUtil.isEmpty(endDate)){
 					hql +="  where p.id in(select a.project.id from ProjectPay a where a.payDate>=:date)";
 					payHql+=" where a.payDate>=:date";
@@ -210,7 +210,7 @@ public class ProjectController {
 		po.setMaterialCost(vo.getMaterialCost());
 		dao.save(po);
 		
-		//ÏîÄ¿Ã÷Ï¸		
+		//é¡¹ç›®æ˜ç»†		
 		String[] material = request.getParameterValues("detailCol1");
 		if(material!=null){
 			String[] length = request.getParameterValues("detailCol2");
@@ -228,7 +228,7 @@ public class ProjectController {
 				dao.save(detail);
 			}			
 		}
-		//ÊÕ¿îÃ÷Ï¸
+		//æ”¶æ¬¾æ˜ç»†
 		String[] pay = request.getParameterValues("payCol1");
 		if(pay!=null){
 			String[] payDate = request.getParameterValues("payCol2");
@@ -254,7 +254,7 @@ public class ProjectController {
 		dao.execute(hql, params);
 		
 		
-		map.put("msgText", "Êı¾İÂ¼Èë³É¹¦£¡");
+		map.put("msgText", "æ•°æ®å½•å…¥æˆåŠŸï¼");
 		map.put("prePage", "add");
 		return "main/message";
 	}
@@ -274,9 +274,9 @@ public class ProjectController {
 			Hashtable params = new Hashtable();
 			params.put("id", WebUtil.toIntegerArray(ids));
 			dao.execute(hql, params);
-			map.put("msgText", "Êı¾İÉ¾³ı³É¹¦£¡");
+			map.put("msgText", "æ•°æ®åˆ é™¤æˆåŠŸï¼");
 		}else{
-			map.put("msgText", "ÇëÑ¡ÔñÒªÉ¾³ıµÄÊı¾İ£¡");
+			map.put("msgText", "è¯·é€‰æ‹©è¦åˆ é™¤çš„æ•°æ®ï¼");
 		}
 		map.put("prePage", "del");
 		return "main/message";
@@ -367,7 +367,7 @@ public class ProjectController {
 		Hashtable params = new Hashtable();
 		params.put("pid", new Integer(po.getId()));
 		
-		//ÏîÄ¿Ã÷Ï¸		
+		//é¡¹ç›®æ˜ç»†		
 		String[] did = request.getParameterValues("did");
 		if(did!=null){
 			String[] material = request.getParameterValues("detailCol1");
@@ -420,7 +420,7 @@ public class ProjectController {
 		
 		
 		
-		//ÊÕ¿îÃ÷Ï¸
+		//æ”¶æ¬¾æ˜ç»†
 		String[] pid = request.getParameterValues("pid");
 		if(pid!=null){
 			String[] pay = request.getParameterValues("payCol1");
@@ -472,7 +472,7 @@ public class ProjectController {
 			"(select sum(p.pay) from ProjectPay p where p.project.id=:pid),cost=processCost+materialCost where id=:pid";
 		dao.execute(hql, params);
 		
-		map.put("msgText", "Êı¾İĞŞ¸Ä³É¹¦£¡");
+		map.put("msgText", "æ•°æ®ä¿®æ”¹æˆåŠŸï¼");
 		map.put("prePage", "edit");
 		
 		return "main/message";
