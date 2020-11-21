@@ -135,7 +135,7 @@ public class ExportServlet extends HttpServlet {
 			res.setContentType("application/msexcel");
 			
 			jxl.write.WritableWorkbook wwb = Workbook.createWorkbook(res.getOutputStream()); 
-			jxl.write.WritableSheet sheet = wwb.createSheet("ÔÁKÍò·áÊ¯²Ä", 0); 
+			jxl.write.WritableSheet sheet = wwb.createSheet("ç²¤Kä¸‡ä¸°çŸ³æ", 0); 
 			
 			int rowIndex = 0;
 			
@@ -148,43 +148,43 @@ public class ExportServlet extends HttpServlet {
 					    false, UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);    
 //			WritableCellFormat detFormat = new WritableCellFormat (detFont);    
 			
-			NumberFormat nf=new NumberFormat("0.00"); //ÓÃÓÚNumberµÄ¸ñÊ½   
+			NumberFormat nf=new NumberFormat("0.00"); //ç”¨äºNumberçš„æ ¼å¼   
 			WritableCellFormat priceFormat = new WritableCellFormat (detFont, nf);    
  
-			DateFormat df=new DateFormat("yyyyÄêMÔÂdÈÕ");//ÓÃÓÚÈÕÆÚµÄ   
+			DateFormat df=new DateFormat("yyyyå¹´Mæœˆdæ—¥");//ç”¨äºæ—¥æœŸçš„   
 			WritableCellFormat dateFormat = new WritableCellFormat (detFont, df);
 			
 			WritableCellFormat headerFormat = new WritableCellFormat (headerFont);
 			
 			for(int i=0;i<13;i++){
-				sheet.setColumnView(i, 15);//ÉèÖÃÁĞµÄ¿í¶ÈÎª15 
+				sheet.setColumnView(i, 15);//è®¾ç½®åˆ—çš„å®½åº¦ä¸º15 
 				sheet.mergeCells(i, rowIndex, i, rowIndex+1);
 			}
 			
-			sheet.addCell(new Label(0, rowIndex, "¹¤³ÌÃû³Æ",headerFormat));
-			sheet.addCell(new Label(1, rowIndex, "¹¤³ÌÈÕÆÚ",headerFormat));
-			sheet.addCell(new Label(2, rowIndex, "µ¥ºÅ",headerFormat));
-			sheet.addCell(new Label(3, rowIndex, "¹¤³Ì×Ü¼Û",headerFormat));
-			sheet.addCell(new Label(4, rowIndex, "ÒÑÊÕ¿î",headerFormat));
-			sheet.addCell(new Label(5, rowIndex, "¼Ó¹¤·Ñ",headerFormat));
-			sheet.addCell(new Label(6, rowIndex, "²ÄÁÏ·Ñ",headerFormat));
-			sheet.addCell(new Label(7, rowIndex, "¿ª¹¤ÈÕÆÚ",headerFormat));
-			sheet.addCell(new Label(8, rowIndex, "Íê¹¤ÈÕÆÚ",headerFormat));
-			sheet.addCell(new Label(9, rowIndex, "¿Í»§",headerFormat));
-			sheet.addCell(new Label(10,rowIndex, "¿Í»§µç»°",headerFormat));
-			sheet.addCell(new Label(11,rowIndex, "¿Í»§µØÖ·",headerFormat));
-			sheet.addCell(new Label(12,rowIndex, "±¸×¢",headerFormat));
+			sheet.addCell(new Label(0, rowIndex, "å·¥ç¨‹åç§°",headerFormat));
+			sheet.addCell(new Label(1, rowIndex, "å·¥ç¨‹æ—¥æœŸ",headerFormat));
+			sheet.addCell(new Label(2, rowIndex, "å•å·",headerFormat));
+			sheet.addCell(new Label(3, rowIndex, "å·¥ç¨‹æ€»ä»·",headerFormat));
+			sheet.addCell(new Label(4, rowIndex, "å·²æ”¶æ¬¾",headerFormat));
+			sheet.addCell(new Label(5, rowIndex, "åŠ å·¥è´¹",headerFormat));
+			sheet.addCell(new Label(6, rowIndex, "ææ–™è´¹",headerFormat));
+			sheet.addCell(new Label(7, rowIndex, "å¼€å·¥æ—¥æœŸ",headerFormat));
+			sheet.addCell(new Label(8, rowIndex, "å®Œå·¥æ—¥æœŸ",headerFormat));
+			sheet.addCell(new Label(9, rowIndex, "å®¢æˆ·",headerFormat));
+			sheet.addCell(new Label(10,rowIndex, "å®¢æˆ·ç”µè¯",headerFormat));
+			sheet.addCell(new Label(11,rowIndex, "å®¢æˆ·åœ°å€",headerFormat));
+			sheet.addCell(new Label(12,rowIndex, "å¤‡æ³¨",headerFormat));
 			
 			sheet.mergeCells(13, rowIndex, 16, rowIndex);
-			sheet.addCell(new Label(13, rowIndex, "ÊÕ·ÑÃ÷Ï¸",headerFormat));
+			sheet.addCell(new Label(13, rowIndex, "æ”¶è´¹æ˜ç»†",headerFormat));
 			sheet.setColumnView(13, 15);
 			sheet.setColumnView(14, 15);
 			sheet.setColumnView(15, 15);
 			sheet.setColumnView(16, 15);
-			sheet.addCell(new Label(13, rowIndex+1, "ÊÕ¿îµ¥ºÅ",headerFormat));
-			sheet.addCell(new Label(14, rowIndex+1, "½ğ¶î",headerFormat));
-			sheet.addCell(new Label(15, rowIndex+1, "ÈÕÆÚ",headerFormat));
-			sheet.addCell(new Label(16, rowIndex+1, "ÓÃÍ¾",headerFormat));
+			sheet.addCell(new Label(13, rowIndex+1, "æ”¶æ¬¾å•å·",headerFormat));
+			sheet.addCell(new Label(14, rowIndex+1, "é‡‘é¢",headerFormat));
+			sheet.addCell(new Label(15, rowIndex+1, "æ—¥æœŸ",headerFormat));
+			sheet.addCell(new Label(16, rowIndex+1, "ç”¨é€”",headerFormat));
 			
 			rowIndex++;
 			
@@ -193,7 +193,7 @@ public class ExportServlet extends HttpServlet {
 				
 				int count = countCache.get(project.getId())==null?0:countCache.get(project.getId());
 				if(count>1){
-					//2ÌõÒÔÉÏ¸¶¿î¼ÇÂ¼£¬ºÏ²¢µ¥Ôª¸ñ
+					//2æ¡ä»¥ä¸Šä»˜æ¬¾è®°å½•ï¼Œåˆå¹¶å•å…ƒæ ¼
 					for(int i=0;i<13;i++){
 						sheet.mergeCells(i, rowIndex, i, rowIndex+count-1);
 					}
@@ -209,7 +209,7 @@ public class ExportServlet extends HttpServlet {
 						}
 					}
 				}else if(count==1){
-					//1Ìõ¸¶¿î¼ÇÂ¼
+					//1æ¡ä»˜æ¬¾è®°å½•
 					for(ProjectPay pay:payList){
 						if(pay.getProject().getId().intValue()==project.getId().intValue()){
 							sheet.addCell(new Label(13, rowIndex, pay.getPayNo()));
