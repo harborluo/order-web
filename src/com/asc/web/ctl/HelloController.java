@@ -23,7 +23,7 @@ import com.asc.dao.User;
 
  
 
-//»¹ÊÇ×¢½â·½Ê½,²»ÓÃ¼Ì³ĞÈÎºÎÀà»òÕßÊµÏÖÈÎºÎ½Ó¿Ú
+//è¿˜æ˜¯æ³¨è§£æ–¹å¼,ä¸ç”¨ç»§æ‰¿ä»»ä½•ç±»æˆ–è€…å®ç°ä»»ä½•æ¥å£
 
 @Controller
 
@@ -35,7 +35,7 @@ public class HelloController{
 
       
 
-//ÔÚorderWeb-servlet.xmlÀïÅäÖÃµÄ,¸ÃÊôĞÔÒÑ¾­±»×¢ÈëuserDAOProxy½Ó¿ÚÁË
+//åœ¨orderWeb-servlet.xmlé‡Œé…ç½®çš„,è¯¥å±æ€§å·²ç»è¢«æ³¨å…¥userDAOProxyæ¥å£äº†
 
       public IUserDAO getUserDao() {
 
@@ -63,7 +63,7 @@ public class HelloController{
 
       
 
-//×¢½âÆäurlÓ³Éä
+//æ³¨è§£å…¶urlæ˜ å°„
 
       @SuppressWarnings("unchecked")
 
@@ -71,17 +71,17 @@ public class HelloController{
 
       public String index(ModelMap map,HttpServletRequest request,HttpServletResponse response) {
 
-           // mapÊÇÓÃÀ´ÉèÖÃView²ãÊı¾İµÄ
+           // mapæ˜¯ç”¨æ¥è®¾ç½®Viewå±‚æ•°æ®çš„
 
-           map.put("a1", "SpringÕæºÃÓÃ");
+           map.put("a1", "SpringçœŸå¥½ç”¨");
 
-           request.getSession().setAttribute("a2", "²âÊÔSession");
+           request.getSession().setAttribute("a2", "æµ‹è¯•Session");
 
            List<User> list2 = userDao.selectUser();
 
            map.put("a3", list2);
 
-           return "hello";  //¸ÃÊôĞÔ±»×¢ÈëÖµhelloÁË,¾ÍÊÇäÖÈ¾ÊÓÍ¼hello.jsp
+           return "hello";  //è¯¥å±æ€§è¢«æ³¨å…¥å€¼helloäº†,å°±æ˜¯æ¸²æŸ“è§†å›¾hello.jsp
 
       }
       
@@ -91,17 +91,17 @@ public class HelloController{
 
       public String index2(ModelMap map,HttpServletRequest request,HttpServletResponse response) {
     	  /**
-           // mapÊÇÓÃÀ´ÉèÖÃView²ãÊı¾İµÄ
+           // mapæ˜¯ç”¨æ¥è®¾ç½®Viewå±‚æ•°æ®çš„
 
-           map.put("a1", "SpringÕæºÃÓÃ");
+           map.put("a1", "SpringçœŸå¥½ç”¨");
 
-           request.getSession().setAttribute("a2", "²âÊÔSession");
+           request.getSession().setAttribute("a2", "æµ‹è¯•Session");
 
            List<User> list2 = userDao.selectUser();
 
            map.put("a3", list2);
 			**/
-           return "test";  //¸ÃÊôĞÔ±»×¢ÈëÖµhelloÁË,¾ÍÊÇäÖÈ¾ÊÓÍ¼hello.jsp
+           return "test";  //è¯¥å±æ€§è¢«æ³¨å…¥å€¼helloäº†,å°±æ˜¯æ¸²æŸ“è§†å›¾hello.jsp
 
       }
       

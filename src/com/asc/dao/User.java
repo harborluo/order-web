@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 
-//Ö¸¶¨±í¸ñµÄÃû³Æ,×¢½â·½Ê½
+//æŒ‡å®šè¡¨æ ¼çš„åç§°,æ³¨è§£æ–¹å¼
 
 @SuppressWarnings("serial")
 @Entity
@@ -17,7 +17,7 @@ public class User implements Serializable {
 
 	public String password;
 
-	// Ö÷¼ü,×¢½â·½Ê½
+	// ä¸»é”®,æ³¨è§£æ–¹å¼
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
