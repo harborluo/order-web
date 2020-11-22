@@ -39,6 +39,7 @@ public class ReportController {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		int year = cal.get(Calendar.YEAR);
+//		year = 2019;
 		String sql="select sum(cost_paid),month(project_date) from project" +
 				" where year(project_date)=? group by month(project_date) ";
 		//Hashtable params = new Hashtable();
