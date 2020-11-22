@@ -114,7 +114,22 @@
              <groupId>org.hibernate</groupId>
              <artifactId>hibernate-core</artifactId>
              <version>4.2.3.Final</version>
+             <!--
+
+             <exclusions>
+                 <exclusion>
+                     <groupId>org.jboss.logging</groupId>
+                     <artifactId>jboss-logging</artifactId>
+                 </exclusion>
+             </exclusions>
+             -->
          </dependency>
+
+<!--      <dependency>-->
+<!--          <groupId>org.jboss.logging</groupId>-->
+<!--          <artifactId>jboss-logging</artifactId>-->
+<!--          <version>3.3.2.Final</version>-->
+<!--      </dependency>-->
          <!-- hibernate end -->
 
          <!--c3p0 start -->
@@ -161,6 +176,17 @@
           <version>2.6.12</version>
       </dependency>
 
+      <dependency>
+          <groupId>commons-dbcp</groupId>
+          <artifactId>commons-dbcp</artifactId>
+          <version>1.4</version>
+      </dependency>
+
+      <dependency>
+          <groupId>commons-pool</groupId>
+          <artifactId>commons-pool</artifactId>
+          <version>1.6</version>
+      </dependency>
 
   </dependencies>
 

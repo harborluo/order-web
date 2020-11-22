@@ -8,8 +8,8 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.springframework.orm.hibernate3.HibernateCallback;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.HibernateCallback;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 public class GeneralServiceImpl extends HibernateDaoSupport implements GeneralService  {
 	
@@ -68,9 +68,9 @@ public class GeneralServiceImpl extends HibernateDaoSupport implements GeneralSe
 	
 	@SuppressWarnings("unchecked")
 	public Integer getRecordCount(final String hql,final Hashtable params) {
-		return ((Long) getHibernateTemplate().executeFind(new HibernateCallback() {
-			public Object doInHibernate(Session s) throws HibernateException,
-					SQLException {
+		return ((Long) getHibernateTemplate().execute((new HibernateCallback() {
+			public Object doInHibernate(Session s) throws HibernateException
+					 {
 				Query query = s.createQuery(hql);
 				Enumeration enumeration = params.keys();
 
@@ -82,17 +82,40 @@ public class GeneralServiceImpl extends HibernateDaoSupport implements GeneralSe
 						query.setParameter(keys, params.get(keys));
 					}
 				}
-				return  query.list();
+				return  query.list().get(0);
 			}
-		}).get(0)).intValue();
+		}))).intValue() ;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List queryPageList(final String hql,final Hashtable params,final int curPage,final int pageSize) {
-		return getHibernateTemplate().executeFind(new HibernateCallback() {
-			public Object doInHibernate(Session s) throws HibernateException,
-					SQLException {
-				Query query = s.createQuery(hql);
+//		return getHibernateTemplate().executeFind(new HibernateCallback() {
+//			public Object doInHibernate(Session s) throws HibernateException,
+//					SQLException {
+//				Query query = s.createQuery(hql);
+//				Enumeration enumeration = params.keys();
+//
+//				while (enumeration.hasMoreElements()) {
+//					String keys = (String) enumeration.nextElement();
+//					if(params.get(keys) instanceof Object[]){
+//						query.setParameterList(keys,(Object[])params.get(keys));
+//					}else{
+//						query.setParameter(keys, params.get(keys));
+//					}
+//				}
+//
+//				query.setFirstResult((curPage-1)*pageSize);
+//				query.setMaxResults(pageSize);
+//
+//				return query.list();
+//			}
+//		});
+
+		return getHibernateTemplate().execute(
+				new HibernateCallback<List>() {
+					@Override
+					public List doInHibernate(Session session) throws HibernateException {
+										Query query = session.createQuery(hql);
 				Enumeration enumeration = params.keys();
 
 				while (enumeration.hasMoreElements()) {
@@ -103,21 +126,41 @@ public class GeneralServiceImpl extends HibernateDaoSupport implements GeneralSe
 						query.setParameter(keys, params.get(keys));
 					}
 				}
-				
+
 				query.setFirstResult((curPage-1)*pageSize);
 				query.setMaxResults(pageSize);
-				
+
 				return query.list();
-			}
-		});
+					}
+				}
+		);
+
 	}
 
 	@SuppressWarnings("unchecked")
 	public List find(final String hql, final Hashtable params) {
-		return getHibernateTemplate().executeFind(new HibernateCallback() {
-			public Object doInHibernate(Session s) throws HibernateException,
-					SQLException {
-				Query query = s.createQuery(hql);
+//		return getHibernateTemplate().executeFind(new HibernateCallback() {
+//			public Object doInHibernate(Session s) throws HibernateException,
+//					SQLException {
+//				Query query = s.createQuery(hql);
+//				Enumeration enumeration = params.keys();
+//
+//				while (enumeration.hasMoreElements()) {
+//					String keys = (String) enumeration.nextElement();
+//					if(params.get(keys) instanceof Object[]){
+//						query.setParameterList(keys,(Object[])params.get(keys));
+//					}else{
+//						query.setParameter(keys, params.get(keys));
+//					}
+//				}
+//				return  query.list();
+//			}
+//		});
+		return getHibernateTemplate().execute(
+				new HibernateCallback<List>() {
+					@Override
+					public List doInHibernate(Session session) throws HibernateException {
+						Query query = session.createQuery(hql);
 				Enumeration enumeration = params.keys();
 
 				while (enumeration.hasMoreElements()) {
@@ -129,15 +172,16 @@ public class GeneralServiceImpl extends HibernateDaoSupport implements GeneralSe
 					}
 				}
 				return  query.list();
-			}
-		});
+					}
+				}
+		);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Integer execute(final String hql,final Hashtable params) {
 		return (Integer) getHibernateTemplate().execute(new HibernateCallback(){
 
-			public Object doInHibernate(Session s) throws HibernateException, SQLException {
+			public Object doInHibernate(Session s) throws HibernateException {
 				Query query = s.createQuery(hql);
 				Enumeration enumeration = params.keys();
 
@@ -162,7 +206,7 @@ public class GeneralServiceImpl extends HibernateDaoSupport implements GeneralSe
 		
 		return (List) getHibernateTemplate().execute(new HibernateCallback(){
 
-			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			public Object doInHibernate(Session session) throws HibernateException {
 				
 				return session.getNamedQuery(queryName).list();
 			}

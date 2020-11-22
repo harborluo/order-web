@@ -9,7 +9,7 @@
     <!-- 自动载入的spring配置 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml,WEB-INF/orderWeb-servlet.xml</param-value>
+        <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
 
     <listener>
