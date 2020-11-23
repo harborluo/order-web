@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /
 
+
+
 spring:
   datasource:
     name: druidDataSource
@@ -33,6 +35,12 @@ spring:
         filter:
           config:
             enabled: true   # 数据库过滤器
+  mvc:
+    view:
+      prefix: /pages/
+      suffix: .html
+#    static-path-pattern: classpath:/static
+
 
 mybatis-plus:
   configuration:
