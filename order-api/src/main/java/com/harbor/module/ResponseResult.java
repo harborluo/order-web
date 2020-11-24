@@ -33,4 +33,8 @@ public class ResponseResult<T> {
     public static ResponseResult error(){
         return new ResponseResult().builder().code(ResultCode.INTERNAL_SERVER_ERROR.getCode()).message("Internal server error").build();
     }
+
+    public static ResponseResult notFound(String message){
+        return new ResponseResult().builder().code(ResultCode.NOT_FOUND.getCode()).message(message).build();
+    }
 }

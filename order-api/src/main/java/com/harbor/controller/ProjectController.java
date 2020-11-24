@@ -9,6 +9,7 @@ import com.harbor.module.ResponseResult;
 import com.harbor.service.ProjectDetailService;
 import com.harbor.service.ProjectPayService;
 import com.harbor.service.ProjectService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @Validated
 @RestController
+@Slf4j
 public class ProjectController {
 
     @Autowired
@@ -56,9 +58,13 @@ public class ProjectController {
 
         Project project = service.getById(id);
 
+        if (project == null) {
+            log.error("Project with id {} not found", id);
+            return ResponseResult.notFound("Project with id " + id + " not found");
+        }
+
         List<ProjectDetail> details = detailService.listByProjectId(id);
         List<ProjectPay> pays = payService.listByProjectId(id);
-
         project.setDetails(details);
         project.setPays(pays);
 
