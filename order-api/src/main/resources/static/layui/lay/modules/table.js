@@ -1996,8 +1996,8 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
 //customized by harbor
 function getGvalue(gdata, gvariable) {
     var gvariableArr = gvariable.split('.');
-    for(let gvariableEle of gvariableArr) {
-        gdata = gdata[gvariableEle];
+    for(let i = 0; i < gvariableArr.length; i++) {
+        gdata = gdata[gvariableArr[i]];
     }
     return gdata;
 }
