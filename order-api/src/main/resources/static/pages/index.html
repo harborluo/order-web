@@ -9,9 +9,24 @@
 <script src="layui/layui.all.js"></script>
 <script src="layui/layui.js"></script>
 
-<table class="layui-hide" id="test">
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title">
+        <li class="layui-this">数据查询</li>
+        <li>报表统计</li>
 
-</table>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+        <div class="layui-tab-item layui-show">
+
+            <table id="demo" lay-filter="test"></table>
+
+        </div>
+        <div class="layui-tab-item">2</div>
+
+    </div>
+</div>
+
+
 
 
 <script>
@@ -19,15 +34,17 @@
         var table = layui.table;
 
         table.render({
-            elem: '#test'
-            ,url:'/projects?'
-            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+         //其它参数在此省略
+           // skin: 'row' //行边框风格
+            elem: '#demo'
+            ,url:'/projects'
+            //,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [[
-                {field:'id', title: 'ID', sort: false},
-                {field:'name', title: '工程名称', sort: false},
-                {field:'serialNo', title: '单号'/*, templet:function(d){ return d==''?'未开单':d}*/},
-                {field:'projectDate', title: '工程日期', templet : "<div>{{layui.util.toDateString(d.projectDate, 'yyyy-MM-dd')}}</div>"},
-                {field:'cost', title: '工程总价', align:'right'},
+                {field:'id', width: 100,  title: 'ID', sort: false},
+                {field:'name', width: 200, title: '工程名称', sort: false},
+                {field:'serialNo',  title: '单号'/*, templet:function(d){ return d==''?'未开单':d}*/},
+                {field:'projectDate',  title: '工程日期', templet : "<div>{{layui.util.toDateString(d.projectDate, 'yyyy-MM-dd')}}</div>"},
+                {field:'cost',  title: '工程总价', align:'right'},
                 {
                     field: 'costPaid', title: '收款情况', align:'right', templet: function (project) {
                         if (project.cost == project.costPaid) {
@@ -36,10 +53,10 @@
                             return project.costPaid == null ? '未收款' : project.costPaid;
                         }
                     }
-                },
-                ,{field:'clientName', title: '客户', sort: false}
-                ,{field:'clientPhone', title: '电话', sort: false}
-                ,{field:'clientAddress', title: '地址', sort: false}
+                }
+               ,{field:'clientName', title: '客户', sort: false}
+               ,{field:'clientPhone',  title: '电话', sort: false}
+               ,{field:'clientAddress', title: '地址', sort: false}
             ]],
             request: {
                 pageName: 'page' //页码的参数名称，默认：page
