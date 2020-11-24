@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.harbor.entity.Project;
 import com.harbor.mapper.ProjectMapper;
 import com.harbor.service.ProjectService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * Created by harbor on 2020/3/28.
  */
 @Service
+@Slf4j
 public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements ProjectService {
 
     @Override
@@ -65,8 +67,10 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
         entityWrapper.orderByDesc("project_date");
 
-        int current = page + (page -1) * pageSize;
+//        int current = page + (page -1) * pageSize;
 
-        return baseMapper.selectPage(new Page<Project>(current, pageSize), entityWrapper);
+        log.info("current page is {}", page);
+
+        return baseMapper.selectPage(new Page<Project>(page, pageSize), entityWrapper);
     }
 }
