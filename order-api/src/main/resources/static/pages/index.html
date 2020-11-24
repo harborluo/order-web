@@ -8,7 +8,9 @@
 <body>
 <script src="layui/layui.all.js"></script>
 <script src="layui/layui.js"></script>
+<!--
 
+-->
 <div class="layui-tab layui-tab-card">
     <ul class="layui-tab-title">
         <li class="layui-this">数据查询</li>
@@ -43,7 +45,7 @@
                 {field:'id', width: 100,  title: 'ID', sort: false},
                 {field:'name', width: 200, title: '工程名称', sort: false},
                 {field:'serialNo',  title: '单号'/*, templet:function(d){ return d==''?'未开单':d}*/},
-                {field:'projectDate',  title: '工程日期', templet : "<div>{{layui.util.toDateString(d.projectDate, 'yyyy-MM-dd')}}</div>"},
+                {field:'projectDate',  title: '工程日期'},
                 {field:'cost',  title: '工程总价', align:'right'},
                 {
                     field: 'costPaid', title: '收款情况', align:'right', templet: function (project) {
