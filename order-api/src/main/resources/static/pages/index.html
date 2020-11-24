@@ -24,7 +24,7 @@
                 {field:'id', title: 'ID', sort: false},
                 {field:'name', title: '工程名称', sort: false},
                 {field:'serialNo', title: '单号'/*, templet:function(d){ return d==''?'未开单':d}*/},
-                {field:'projectDate', title: '工程日期', sort: false},
+                {field:'projectDate', title: '工程日期', templet : "<div>{{layui.util.toDateString(d.projectDate, 'yyyy-MM-dd')}}</div>"},
                 {field:'cost', title: '工程总价', sort: false},
                 {field:'costPaid', title: '收款情况', sort: false},
                 ,{field:'clientName', title: '客户', sort: false}
@@ -41,8 +41,8 @@
                 ,msgName: 'message' //规定状态信息的字段名称，默认：msg
                 ,countName: 'data.total' //规定数据总数的字段名称，默认：count
                 ,dataName: 'data.records' //规定数据列表的字段名称，默认：data
-            }
-            ,page: true
+            },
+            page: true
         });
     });
 </script>
