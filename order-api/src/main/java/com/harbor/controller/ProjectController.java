@@ -3,7 +3,11 @@ package com.harbor.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.harbor.entity.Project;
+import com.harbor.entity.ProjectDetail;
+import com.harbor.entity.ProjectPay;
 import com.harbor.module.ResponseResult;
+import com.harbor.service.ProjectDetailService;
+import com.harbor.service.ProjectPayService;
 import com.harbor.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
+import java.util.List;
 
 /**
  * Created by harbor on 2020/3/28.
@@ -21,6 +26,12 @@ public class ProjectController {
 
     @Autowired
     ProjectService service;
+
+    @Autowired
+    ProjectDetailService detailService;
+
+    @Autowired
+    ProjectPayService payService;
 
     @GetMapping("/projects")
     public ResponseResult<IPage<Project>> retrieveProject(
@@ -44,6 +55,12 @@ public class ProjectController {
     public ResponseResult<Project> retrieveProjectById(@PathVariable("id") int id){
 
         Project project = service.getById(id);
+
+        List<ProjectDetail> details = detailService.listByProjectId(id);
+        List<ProjectPay> pays = payService.listByProjectId(id);
+
+        project.setDetails(details);
+        project.setPays(pays);
 
         return  ResponseResult.ok(project);
     }

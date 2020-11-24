@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @TableName(value = "project")
@@ -53,5 +54,11 @@ public class Project {
 
     @TableField(value = "client_address")
     private String clientAddress;
+
+    @TableField(exist = false)
+    private List<ProjectDetail> details;
+
+    @TableField(exist = false)
+    private List<ProjectPay> pays;
 
 }

@@ -33,7 +33,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                                              String serialNo,
                                              String isValidate,
                                              String isDealDone) {
-        QueryWrapper<Project> entityWrapper = new QueryWrapper<Project>();
+
+        QueryWrapper<Project> entityWrapper = new QueryWrapper<>();
 
         if (!StringUtils.isEmpty(projectFromDate) && ! StringUtils.isEmpty(projectToDate)) {
             entityWrapper.between("project_date", projectFromDate, projectToDate);
