@@ -6,19 +6,28 @@
     <link rel="stylesheet" media="all" href="layui/css/layui.css">
 </head>
 <body>
+
 <script src="layui/layui.all.js"></script>
 <script src="layui/layui.js"></script>
-<!--
 
--->
 <div class="layui-tab layui-tab-card">
     <ul class="layui-tab-title">
         <li class="layui-this">数据查询</li>
         <li>报表统计</li>
-
     </ul>
     <div class="layui-tab-content" style="height: 100px;">
         <div class="layui-tab-item layui-show">
+
+            <div class="demoTable">
+                单号：
+                <div class="layui-inline">
+                    <input class="layui-input" name="serialNo" id="serialNo" autocomplete="off">
+                </div>
+
+                <button type="button" class="layui-btn search" lay-event="search" id="searchBtn"><i class="layui-icon">&#xe615;</i>查询</button>
+                <button type="button" class="layui-btn layui-btn-normal add" lay-event="add" id="addBtn" ><i class="layui-icon">&#xe608;</i>新增</button>
+
+            </div>
 
             <table id="demo" lay-filter="test"></table>
 
@@ -28,12 +37,12 @@
     </div>
 </div>
 
-
-
-
 <script>
-    layui.use(['table','laypage','laydate'], function(){
+
+    layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
+
         var table = layui.table;
+        var $ = layui.jquery;
 
         table.render({
          //其它参数在此省略
@@ -73,8 +82,25 @@
             },
             page: true,
             limit : 10,
-            limits: [10, 25, 50, 100]
+            limits: [10, 25, 50, 100],
+            id: 'demoTableReload'
         });
+
+
+        $("button#searchBtn").click(function (ev) {
+            console.info("reload");
+            var serialNo = $("#serialNo").val();
+
+            table.reload('demoTableReload', {
+                where: {
+                    page: 1,
+                    serialNo: serialNo
+                } //设定异步数据接口的额外参数
+
+            });
+
+        });
+
     });
 </script>
 
