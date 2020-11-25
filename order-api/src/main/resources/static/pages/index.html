@@ -6,38 +6,105 @@
     <link rel="stylesheet" media="all" href="layui/css/layui.css">
 </head>
 <body>
-
 <script src="layui/layui.all.js"></script>
+
 <script src="layui/layui.js"></script>
 
+<!--
+
+-->
 <div class="layui-tab layui-tab-card">
     <ul class="layui-tab-title">
         <li class="layui-this">数据查询</li>
         <li>报表统计</li>
+
     </ul>
     <div class="layui-tab-content" style="height: 100px;">
         <div class="layui-tab-item layui-show">
 
-            <div class="demoTable">
-                单号：
-                <div class="layui-inline">
-                    <input class="layui-input" name="serialNo" id="serialNo" autocomplete="off">
+            <form class="layui-form" action="" lay-filter="example">
+
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label">单号：</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="serialNo" id="serialNo" autocomplete="off">
+                    </div>
+
+                    <label class="layui-form-label">收款情况：</label>
+                    <div class="layui-input-inline">
+                        <select name="isOK">
+                            <option value="">=请选择=</option>
+                            <option value="yes">已收齐</option>
+                            <option value="no">未收齐</option>
+                        </select>
+                    </div>
+
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="like[dai]" title="录入完整的数据" checked>
+                    </div>
+
                 </div>
 
-                <button type="button" class="layui-btn search" lay-event="search" id="searchBtn"><i class="layui-icon">&#xe615;</i>查询</button>
-                <button type="button" class="layui-btn layui-btn-normal add" lay-event="add" id="addBtn" ><i class="layui-icon">&#xe608;</i>新增</button>
+                <div class="layui-form-item">
 
-            </div>
+                    <label class="layui-form-label">范围：</label>
+                    <div class="layui-input-inline">
+                        <select name="dateType">
+                            <option value="projectDate" selected>工程日期</option>
+                            <option value="payDate">支付日期</option>
+                        </select>
+
+                    </div>
+
+                    <label class="layui-form-label">从</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="beginDate" id="beginDate"  autocomplete="off">
+                    </div>
+
+                    <label class="layui-form-label">到</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="endDate" id="endDate" autocomplete="off">
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> </label>
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn search" lay-event="search" id="searchBtn"><i class="layui-icon layui-icon-search"></i>查询</button>
+                        <button type="button" class="layui-btn layui-btn-normal" lay-event="add" id="addBtn"><i class="layui-icon layui-icon-add-circle"></i>新增</button>
+                        <button type="button" class="layui-btn layui-btn-danger" lay-event="del" id="delBtn"><i class="layui-icon layui-icon-delete"></i>删除</button>
+                        <button type="button" class="layui-btn layui-btn-normal" lay-event="exp" id="expBtn"><i class="layui-icon layui-icon-export"></i>导出</button>
+                    </div>
+                </div>
+
+            </form>
 
             <table id="demo" lay-filter="test"></table>
 
         </div>
+
         <div class="layui-tab-item">2</div>
 
     </div>
 </div>
 
 <script>
+
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+
+        //常规用法
+        laydate.render({
+            elem: '#beginDate'
+        });
+
+        laydate.render({
+            elem: '#endDate'
+        });
+
+    });
 
     layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
 
