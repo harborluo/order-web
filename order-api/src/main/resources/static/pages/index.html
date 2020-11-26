@@ -19,7 +19,7 @@
         <li>报表统计</li>
 
     </ul>
-    <div class="layui-tab-content" style="height: 100px;">
+    <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
 
             <form class="layui-form" action="" lay-filter="example">
@@ -33,7 +33,7 @@
 
                     <label class="layui-form-label">收款情况：</label>
                     <div class="layui-input-inline">
-                        <select name="isOK">
+                        <select name="isOK" id="isOK">
                             <option value="">=请选择=</option>
                             <option value="yes">已收齐</option>
                             <option value="no">未收齐</option>
@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="layui-input-inline">
-                        <input type="checkbox" name="like[dai]" title="录入完整的数据" checked>
+                        <input type="checkbox" name="isValidate" id="isValidate" value="N" title="录入不完整的数据">
                     </div>
 
                 </div>
@@ -50,7 +50,7 @@
 
                     <label class="layui-form-label">范围：</label>
                     <div class="layui-input-inline">
-                        <select name="dateType">
+                        <select name="dateType" id="dateType">
                             <option value="projectDate" selected>工程日期</option>
                             <option value="payDate">支付日期</option>
                         </select>
@@ -156,12 +156,15 @@
 
         $("button#searchBtn").click(function (ev) {
             console.info("reload");
-            var serialNo = $("#serialNo").val();
-
             table.reload('demoTableReload', {
                 where: {
                     page: 1,
-                    serialNo: serialNo
+                    serialNo: $("#serialNo").val(),
+                    isDealDone: $("#isOK").val(),
+                    isValidate: $('#isValidate').is(':checked') ? "N" : "Y",
+                    dateType: $("#dateType").val(),
+                    beginDate: $("#beginDate").val(),
+                    endDate: $("#endDate").val()
                 } //设定异步数据接口的额外参数
 
             });
