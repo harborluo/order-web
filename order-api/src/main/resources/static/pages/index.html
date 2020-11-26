@@ -155,7 +155,7 @@
 
 
         $("button#searchBtn").click(function (ev) {
-            console.info("reload");
+            console.info("searchBtn clicked.");
             table.reload('demoTableReload', {
                 where: {
                     // page: 1,
@@ -163,8 +163,10 @@
                     isDealDone: $("#isOK").val(),
                     isValidate: $('#isValidate').is(':checked') ? "N" : "Y",
                     dateType: $("#dateType").val(),
-                    beginDate: $("#beginDate").val(),
-                    endDate: $("#endDate").val()
+                    projectFromDate: $("#dateType").val() == "projectDate" ? $("#beginDate").val() : "",
+                    projectToDate: $("#dateType").val() == "projectDate" ? $("#endDate").val() : "",
+                    payFromDate: $("#dateType").val() == "payDate" ? $("#beginDate").val() : "",
+                    payToDate: $("#dateType").val() == "payDate" ? $("#endDate").val() : ""
                 } //设定异步数据接口的额外参数
 
             });

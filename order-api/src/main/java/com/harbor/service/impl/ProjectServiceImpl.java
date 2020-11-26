@@ -36,20 +36,23 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
         QueryWrapper<Project> entityWrapper = new QueryWrapper<>();
 
+        log.info("page: {}, pageSize: {}, projectFromDate: {}, projectToDate: {}, payFromDate: {}, payToDate: {}, serialNo: {}, isValidate: {}, isDealDone: {}.",
+                page, pageSize, projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
+
         if (!StringUtils.isEmpty(projectFromDate) && ! StringUtils.isEmpty(projectToDate)) {
             entityWrapper.between("project_date", projectFromDate, projectToDate);
         } else if (!StringUtils.isEmpty(projectFromDate) &&  StringUtils.isEmpty(projectToDate)) {
             entityWrapper.ge("project_date", projectFromDate);
-        } else if (!StringUtils.isEmpty(projectFromDate) &&  StringUtils.isEmpty(projectToDate)) {
+        } else if (StringUtils.isEmpty(projectFromDate) &&  !StringUtils.isEmpty(projectToDate)) {
             entityWrapper.le("project_date", projectToDate);
         }
 
         if (!StringUtils.isEmpty(payFromDate) && ! StringUtils.isEmpty(payToDate)) {
-            entityWrapper.apply("exists (select 1 from project_pay pp where project.id = pp.project_id and pp.pay_date between {0} and {1})", payFromDate, payToDate);
+            entityWrapper.apply(true,"exists (select 1 from project_pay pp where project.id = pp.project_id and pp.pay_date between {0} and {1})", payFromDate, payToDate);
         } else if (!StringUtils.isEmpty(payFromDate) &&  StringUtils.isEmpty(payToDate)) {
-            entityWrapper.apply("exists (select 1 from project_pay pp where project.id = pp.project_id and pp.pay_date >= {0})", payFromDate);
+            entityWrapper.apply(true,"exists (select 1 from project_pay pp where project.id = pp.project_id and pp.pay_date >= {0})", payFromDate);
         } else if (StringUtils.isEmpty(payFromDate) &&  !StringUtils.isEmpty(payToDate)) {
-            entityWrapper.apply("exists (select 1 from project_pay pp where project.id = pp.project_id and pp.pay_date <= {0})", payToDate);
+            entityWrapper.apply(true,"exists (select 1 from project_pay pp where project.id = pp.project_id and pp.pay_date <= {0})", payToDate);
         }
 
         if (!StringUtils.isEmpty(serialNo)){
@@ -57,13 +60,13 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         }
 
         if ("N".equals(isValidate)) {
-            entityWrapper.apply(" id in ( select project_id from project_pay pp where pp.pay is null or pp.pay_date is null )");
+            entityWrapper.apply(true, " id in ( select project_id from project_pay pp where pp.pay is null or pp.pay_date is null )");
         }
 
         if ("yes".equals(isDealDone)) {
-            entityWrapper.apply("project_cost <= cost_paid");
+            entityWrapper.apply(true,"cost <= cost_paid");
         } else if ("no".equals(isDealDone)) {
-            entityWrapper.apply("cost > cost_paid or cost_paid is null or cost = 0");
+            entityWrapper.apply(true,"(cost > cost_paid or cost_paid is null or cost = 0)");
         }
 
         entityWrapper.orderByDesc("project_date");
