@@ -5,16 +5,19 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 public class GeneralServiceImpl extends HibernateDaoSupport implements GeneralService  {
 	
 	
 	public void delete(Object obj) {
+		getSessionFactory().getCurrentSession().setFlushMode(FlushMode.AUTO);
 		getHibernateTemplate().delete(obj);
 	}
 
@@ -23,11 +26,15 @@ public class GeneralServiceImpl extends HibernateDaoSupport implements GeneralSe
 		return getHibernateTemplate().find(hql, values);
 	}
 
+	@Transactional
 	public void save(Object obj) {
+//		getSessionFactory().getCurrentSession().setFlushMode(FlushMode.AUTO);
 		getHibernateTemplate().save(obj);
 	}
 
+	@Transactional
 	public void update(Object obj) {
+		getSessionFactory().getCurrentSession().setFlushMode(FlushMode.AUTO);
 		getHibernateTemplate().update(obj);
 	}
 	
