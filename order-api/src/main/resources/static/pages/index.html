@@ -10,105 +10,130 @@
 
 <script src="layui/layui.js"></script>
 
-<form class="layui-form" id="project-form" style="display:none">
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">工程名称</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">工程日期</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+<div class="layui-tab" id="project-form" style="display:none">
+    <ul class="layui-tab-title">
+        <li class="layui-this">基本信息</li>
+        <li>项目明细</li>
+        <li>收费明细</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">工程总价</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">已收款</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">工程名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">工程日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="projectDate" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">加工费</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">加工费</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">工程总价</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="cost" placeholder="￥" lay-verify="number" style="text-align: right" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">开工日期</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">开工日期</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">已收款</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="costPaid" placeholder="￥" lay-verify="number" style="text-align: right" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">单号</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">客户</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+                </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">客户电话</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">客户地址</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">加工费</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="processCost" placeholder="￥" lay-verify="number" style="text-align: right" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">材料费</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="materialCost" placeholder="￥" lay-verify="number" style="text-align: right" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
 
-    <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label" >文本域</label>
-        <div class="layui-input-block">
-            <textarea lay-verify="required" name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
-        </div>
-    </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">开工日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="beginDate" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">开工日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="finishDate" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
 
-</form>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">单号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="serialNo" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客户</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="clientName" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客户电话</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="clientPhone" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客户地址</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="clientAddress" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label" >备注</label>
+                    <div class="layui-input-block">
+                        <textarea lay-verify="required" name="note" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="layui-tab-item">
+            <table id="detailTable" lay-filter="detailTable"></table>
+        </div>
+
+        <div class="layui-tab-item">
+            <table id="feeTable" lay-filter="feeTable"></table>
+        </div>
+
+    </div>
+</div>
+
 
 <!-- -->
 
@@ -127,7 +152,7 @@
 
                     <label class="layui-form-label">单号：</label>
                     <div class="layui-input-inline">
-                        <input class="layui-input" name="serialNo" id="serialNo" autocomplete="off">
+                        <input class="layui-input" name="search-serialNo" id="serialNo" autocomplete="off">
                     </div>
 
                     <label class="layui-form-label">收款情况：</label>
@@ -205,6 +230,20 @@
             elem: '#endDate'
         });
 
+        //
+
+        laydate.render({
+            elem: "#project-form input[name='projectDate']"
+        });
+
+        laydate.render({
+            elem: "#project-form input[name='beginDate']"
+        });
+
+        laydate.render({
+            elem: "#project-form input[name='finishDate']"
+        });
+
     });
 
     layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
@@ -275,17 +314,12 @@
 
         });
 
-        // //监听行单击事件（双击事件为：rowDouble）
-        // table.on('row(demoTable)', function(obj){
-        //     var data = obj.data;
-        //
-        //     // layer.alert(JSON.stringify(data), {
-        //     //     title: '修改记录：'
-        //     // });
-        //
-        //     //标注选中样式
-        //     obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-        // });
+        //监听行单击事件（双击事件为：rowDouble）
+        table.on('row(demoTable)', function(obj){
+            // var data = obj.data;
+            //标注选中样式
+            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        });
 
     });
 
@@ -297,12 +331,8 @@
         layui.jquery.ajax({url:"/project/"+pid,
             success:function(response){
 
-                // layer.alert(JSON.stringify(response), {
-                //     title: '修改记录：'
-                // });
-
                 layer.open({
-                    area: '650px',
+                    area: '700px',
                     type: 1,
                     title: '修改记录：',
                     content: layui.jquery("#project-form"),
@@ -324,6 +354,55 @@
                     ,cancel: function(){
                         //右上角关闭回调
                         //return false 开启该代码可禁止点击该按钮关闭
+                    },
+                    success : function () {
+                        //数据绑定
+
+                        layui.jquery("#project-form input[name='name']").val(response.data.name);
+                        layui.jquery("#project-form input[name='projectDate']").val(response.data.projectDate);
+                        layui.jquery("#project-form input[name='cost']").val(response.data.cost);
+                        layui.jquery("#project-form input[name='costPaid']").val(response.data.costPaid);
+                        layui.jquery("#project-form input[name='processCost']").val(response.data.processCost);
+                        layui.jquery("#project-form input[name='materialCost']").val(response.data.materialCost);
+                        layui.jquery("#project-form input[name='beginDate']").val(response.data.beginDate);
+                        layui.jquery("#project-form input[name='finishDate']").val(response.data.finishDate);
+                        layui.jquery("#project-form input[name='serialNo']").val(response.data.serialNo);
+                        layui.jquery("#project-form input[name='clientName']").val(response.data.clientName);
+
+                        layui.jquery("#project-form input[name='clientPhone']").val(response.data.clientPhone);
+                        layui.jquery("#project-form input[name='clientAddress']").val(response.data.clientAddress);
+
+                        layui.jquery("#project-form input[name='note']").val(response.data.note);
+
+                        //项目明细
+                        layui.table.render({
+                            elem: '#detailTable'
+                            , cols: [[ //标题栏
+                                {field: 'id', title: 'ID', sort: true}
+                                , {field: 'material', title: '材料'}
+                                , {field: 'length', title: '长' }
+                                , {field: 'width', title: '宽'}
+                                , {field: 'quantity', title: '数量'}
+                                , {field: 'price', title: '单价'}
+                                , {field: 'note', title: '备注'}
+                            ]]
+                            , data: response.data.details
+                        });
+
+                        //收费明细
+                        layui.table.render({
+                            elem: '#feeTable'
+                            , cols: [[ //标题栏
+                                {field: 'id', title: 'ID', sort: true}
+                                , {field: 'payNo', title: '收款单号'}
+                                , {field: 'length', title: '支付金额' }
+                                , {field: 'width', title: '支付日期'}
+                                , {field: 'quantity', title: '用途(定金或付款)'}
+                                , {field: 'price', title: '收款人'}
+                            ]]
+                            , data: response.data.pays
+                        });
+                        //数据绑定结束
                     }
 
                 });
