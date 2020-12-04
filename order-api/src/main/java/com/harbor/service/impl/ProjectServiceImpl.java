@@ -56,7 +56,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
         QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
 
-        entityWrapper.select("sum(ifnull(cost,0)) as costTotal", "sum(ifnull(cost_paid,0)) as costPaidTotal");
+        entityWrapper.select("ifnull(sum(ifnull(cost,0)),0) as costTotal", "ifnull(sum(ifnull(cost_paid,0)),0) as costPaidTotal");
         return baseMapper.selectMaps(entityWrapper).get(0);
     }
 

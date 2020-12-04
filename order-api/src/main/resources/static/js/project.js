@@ -48,8 +48,9 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         elem: '#demoTable'
         ,url:'/projects'
         //,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        // ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
         ,cols: [[
-            {type: 'checkbox', fixed: 'left'},
+            {type: 'checkbox', fixed: 'left', totalRowText: '合计'},
             {field:'name', width: 200, title: '工程名称', templet:
                     '<div><a href="javascript:void(0)" onclick="editProject({{d.id}})" class="layui-table-link">{{d.name}}</a></div>'},
             {field:'serialNo',  title: '单号'/*, templet:function(d){ return d==''?'未开单':d}*/},
@@ -72,12 +73,14 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
             pageName: 'page' //页码的参数名称，默认：page
             ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
         },
+        totalRow: true, //开启合计行
         response: {
             statusName: 'code' //规定数据状态的字段名称，默认：code
             ,statusCode: 200 //规定成功的状态码，默认：0
             ,msgName: 'message' //规定状态信息的字段名称，默认：msg
             ,countName: 'data.total' //规定数据总数的字段名称，默认：count
             ,dataName: 'data.records' //规定数据列表的字段名称，默认：data
+
         },
         page: true,
         limit : 10,
@@ -88,9 +91,13 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
             var costTotal = res.map.costTotal;
             var costPaidTotal = res.map.costPaidTotal;
             var unPaidTotal = costTotal - costPaidTotal;
-            $("div#costTotal").html(costTotal);
-            $("div#costPaidTotal").html(costPaidTotal);
-            $("div#unPaidTotal").html(unPaidTotal);
+            // $("div#costTotal").html(costTotal);
+            // $("div#costPaidTotal").html(costPaidTotal);
+            // $("div#unPaidTotal").html(unPaidTotal);
+
+            this.elem.next().find('.layui-table-total td[data-field="cost"] .layui-table-cell').text(costTotal);
+            this.elem.next().find('.layui-table-total td[data-field="costPaid"] .layui-table-cell').text(costPaidTotal);
+            this.elem.next().find('.layui-table-total td[data-field="clientName"] .layui-table-cell').text('余款未收: ' + unPaidTotal);
 
         }
     });

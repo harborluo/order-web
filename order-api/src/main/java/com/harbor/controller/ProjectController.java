@@ -59,7 +59,6 @@ public class ProjectController {
 
         HttpHeaders headers = new HttpHeaders();
 
-
         sumMap.forEach((key, value) -> {
             headers.add(key, value.toString());
         });
