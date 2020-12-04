@@ -12,12 +12,15 @@ import com.harbor.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by harbor on 2020/3/28.
@@ -37,7 +40,7 @@ public class ProjectController {
     ProjectPayService payService;
 
     @GetMapping("/projects")
-    public ResponseResult<IPage<Project>> retrieveProject(
+    public ResponseEntity retrieveProject(
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") @Max(500) int pageSize,
             @RequestParam(value = "projectFromDate", required = false) String projectFromDate,
@@ -51,7 +54,18 @@ public class ProjectController {
         IPage<Project> result = service.queryProjectByPage(page, pageSize, projectFromDate, projectToDate,
                 payFromDate, payToDate, serialNo, isValidate, isDealDone);
 
-        return  ResponseResult.ok(result);
+        Map<String,Object> sumMap = service.staticProjectCost(projectFromDate, projectToDate,
+                payFromDate, payToDate, serialNo, isValidate, isDealDone);
+
+        HttpHeaders headers = new HttpHeaders();
+
+        sumMap.forEach((key, value) -> {
+            headers.add(key, value.toString());
+        });
+
+        ResponseEntity response = new ResponseEntity<>(ResponseResult.ok(result), headers, HttpStatus.OK);
+
+        return  response;
     }
 
     @GetMapping("/project/{id}")

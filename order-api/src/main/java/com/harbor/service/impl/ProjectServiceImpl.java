@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by harbor on 2020/3/28.
@@ -34,10 +35,38 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                                              String isValidate,
                                              String isDealDone) {
 
-        QueryWrapper<Project> entityWrapper = new QueryWrapper<>();
-
         log.info("page: {}, pageSize: {}, projectFromDate: {}, projectToDate: {}, payFromDate: {}, payToDate: {}, serialNo: {}, isValidate: {}, isDealDone: {}.",
                 page, pageSize, projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
+
+        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
+
+        entityWrapper.orderByDesc("project_date");
+
+        log.info("current page is {}", page);
+
+        return baseMapper.selectPage(new Page<Project>(page, pageSize), entityWrapper);
+    }
+
+    @Override
+    public Map<String, Object> staticProjectCost(String projectFromDate, String projectToDate,
+                                                 String payFromDate, String payToDate,
+                                                 String serialNo,
+                                                 String isValidate,
+                                                 String isDealDone) {
+
+        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
+
+        entityWrapper.select("sum(cost) as costTotal", "sum(cost_paid) as costPaidTotal");
+        return baseMapper.selectMaps(entityWrapper).get(0);
+    }
+
+    private QueryWrapper<Project> buildMapper(String projectFromDate, String projectToDate,
+                                    String payFromDate, String payToDate,
+                                    String serialNo,
+                                    String isValidate,
+                                    String isDealDone){
+
+        QueryWrapper<Project> entityWrapper = new QueryWrapper<>();
 
         if (!StringUtils.isEmpty(projectFromDate) && ! StringUtils.isEmpty(projectToDate)) {
             entityWrapper.between("project_date", projectFromDate, projectToDate);
@@ -69,13 +98,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             entityWrapper.apply(true,"(cost > cost_paid or cost_paid is null or cost = 0)");
         }
 
-        entityWrapper.orderByDesc("project_date");
-
-//        int current = page + (page -1) * pageSize;
-
-        log.info("current page is {}", page);
-
-        return baseMapper.selectPage(new Page<Project>(page, pageSize), entityWrapper);
+        return entityWrapper;
     }
 
     @Override
