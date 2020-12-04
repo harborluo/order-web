@@ -72,19 +72,21 @@ public class ProjectController {
     }
 
     @PostMapping("/project")
-    public ResponseResult<Project> createProject(@RequestBody String requestBody){
-
-        return  ResponseResult.ok(null);
+    public ResponseResult<String> createProject(@RequestBody Project project){
+        service.save(project);
+        return  ResponseResult.ok("添加成功！");
     }
 
     @PutMapping("/project")
-    public ResponseResult<Project> updateProject(@RequestBody String requestBody){
+    public ResponseResult<String> updateProject(@RequestBody Project project){
 
-        return  ResponseResult.ok(null);
+        service.updateById(project);
+        return  ResponseResult.ok("修改成功！");
     }
 
     @DeleteMapping("/project/{id}")
     public ResponseResult<Void> deleteProject(@PathVariable("id") Integer id) {
+        service.removeById(id);
 
         return ResponseResult.ok();
     }

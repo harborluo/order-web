@@ -21,18 +21,19 @@
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
 
-            <form class="layui-form">
+            <form class="layui-form" lay-filter="project-form">
+                <input type="hidden" name="id" value="">
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">工程名称</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="name" autocomplete="off" class="layui-input">
+                            <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">工程日期</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="projectDate" autocomplete="off" class="layui-input">
+                            <input type="text" name="projectDate" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -103,7 +104,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">客户电话</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="clientPhone" autocomplete="off" class="layui-input">
+                            <input type="text" name="clientPhone" lay-verify="phone|number" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -154,7 +155,7 @@
 
                     <label class="layui-form-label">单号：</label>
                     <div class="layui-input-inline">
-                        <input class="layui-input" name="search-serialNo" id="serialNo" autocomplete="off">
+                        <input class="layui-input" name="search-serialNo" id="serialNo" autocomplete="off" value="00073">
                     </div>
 
                     <label class="layui-form-label">收款情况：</label>

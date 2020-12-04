@@ -1,5 +1,13 @@
 
-// var $ = layui.jquery;
+function isNumber(val) {
+    var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+    var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+    if (regPos.test(val) || regNeg.test(val)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 layui.use('laydate', function() {
     var laydate = layui.laydate;
@@ -120,15 +128,26 @@ function addProject() {
         btn: ['保存', '取消'],
         btnAlign: 'c',
         yes: function(index, layero){
-            //按钮【按钮一】的回调
-        },
-        保存: function(index, layero){
-            //按钮【按钮二】的回调
+            //按钮 [保存] 的回调
+            var data1 = layui.form.val("project-form");
 
-            //return false 开启该代码可禁止点击该按钮关闭
+            // layer.alert(JSON.stringify(data1), {icon: 1});
+
+            layui.jquery.ajax({
+                type: 'post',
+                url: "/project",
+                data: JSON.stringify(data1),
+                dataType: "json",
+                contentType : 'application/json;charset=UTF-8',
+                success: function (res){
+                    layui.jquery("button#searchBtn").click();
+                    layer.closeAll();
+                }
+
+            });
         },
-        取消: function(index, layero){
-            //按钮【按钮三】的回调
+        btn2: function(index, layero){
+            //按钮 '取消' 的回调
 
             //return false 开启该代码可禁止点击该按钮关闭
         }
@@ -139,21 +158,21 @@ function addProject() {
         success : function () {
             //数据绑定
 
-            layui.jquery("#project-form input[name='name']").val();
-            layui.jquery("#project-form input[name='projectDate']").val();
-            layui.jquery("#project-form input[name='cost']").val();
-            layui.jquery("#project-form input[name='costPaid']").val();
-            layui.jquery("#project-form input[name='processCost']").val();
-            layui.jquery("#project-form input[name='materialCost']").val();
-            layui.jquery("#project-form input[name='beginDate']").val();
-            layui.jquery("#project-form input[name='finishDate']").val();
-            layui.jquery("#project-form input[name='serialNo']").val();
-            layui.jquery("#project-form input[name='clientName']").val();
-
-            layui.jquery("#project-form input[name='clientPhone']").val();
-            layui.jquery("#project-form input[name='clientAddress']").val();
-
-            layui.jquery("#project-form input[name='note']").val();
+            layui.form.val("project-form", {
+                "id" : ""
+                ,"name": ""
+                ,"projectDate": ""
+                ,"cost": ""
+                ,"costPaid": ""
+                ,"processCost": ""
+                ,"materialCost": ""
+                ,"beginDate": ""
+                ,"finishDate": ""
+                ,"serialNo": ""
+                ,"clientPhone": ""
+                ,"clientAddress": ""
+                ,"note": ""
+            });
 
             //项目明细
             layui.table.render({
@@ -194,6 +213,8 @@ function editProject(pid) {
     //     title: '修改记录：'
     // });
 
+    var table = layui.table ,form = layui.form;
+
     layui.jquery.ajax({url:"/project/"+pid,
         success:function(response){
 
@@ -202,20 +223,31 @@ function editProject(pid) {
                 type: 1,
                 title: '修改记录：',
                 content: layui.jquery("#project-form"),
-                btn: ['保存', '取消'],
                 btnAlign: 'c',
+                btn: ['保存', '取消'],
                 yes: function(index, layero){
-                    //按钮【按钮一】的回调
-                },
-                保存: function(index, layero){
-                    //按钮【按钮二】的回调
+                    //按钮 '保存' 的回调
+                    var data1 = form.val("project-form");
 
-                    //return false 开启该代码可禁止点击该按钮关闭
-                },
-                取消: function(index, layero){
-                    //按钮【按钮三】的回调
+                    // layer.alert(JSON.stringify(data1), {icon: 1});
 
-                    //return false 开启该代码可禁止点击该按钮关闭
+                    layui.jquery.ajax({
+                        type: 'put',
+                        url: "/project",
+                        data: JSON.stringify(data1),
+                        dataType: "json",
+                        contentType : 'application/json;charset=UTF-8',
+                        success: function (res){
+                            layui.jquery("button#searchBtn").click();
+                            layer.closeAll();
+                        }
+                    });
+
+                    return false;// 开启该代码可禁止点击该按钮关闭
+                },
+                btn2: function(index, layero){
+                    //按钮 '取消' 的回调
+                    // return false;// 开启该代码可禁止点击该按钮关闭
                 }
                 ,cancel: function(){
                     //右上角关闭回调
@@ -224,21 +256,21 @@ function editProject(pid) {
                 success : function () {
                     //数据绑定
 
-                    layui.jquery("#project-form input[name='name']").val(response.data.name);
-                    layui.jquery("#project-form input[name='projectDate']").val(response.data.projectDate);
-                    layui.jquery("#project-form input[name='cost']").val(response.data.cost);
-                    layui.jquery("#project-form input[name='costPaid']").val(response.data.costPaid);
-                    layui.jquery("#project-form input[name='processCost']").val(response.data.processCost);
-                    layui.jquery("#project-form input[name='materialCost']").val(response.data.materialCost);
-                    layui.jquery("#project-form input[name='beginDate']").val(response.data.beginDate);
-                    layui.jquery("#project-form input[name='finishDate']").val(response.data.finishDate);
-                    layui.jquery("#project-form input[name='serialNo']").val(response.data.serialNo);
-                    layui.jquery("#project-form input[name='clientName']").val(response.data.clientName);
-
-                    layui.jquery("#project-form input[name='clientPhone']").val(response.data.clientPhone);
-                    layui.jquery("#project-form input[name='clientAddress']").val(response.data.clientAddress);
-
-                    layui.jquery("#project-form input[name='note']").val(response.data.note);
+                    form.val("project-form", {
+                        "id" : response.data.id
+                        ,"name": response.data.name
+                        ,"projectDate": response.data.projectDate
+                        ,"cost": response.data.cost
+                        ,"costPaid": response.data.costPaid
+                        ,"processCost": response.data.processCost
+                        ,"materialCost": response.data.materialCost
+                        ,"beginDate": response.data.beginDate
+                        ,"finishDate": response.data.finishDate
+                        ,"serialNo": response.data.serialNo
+                        ,"clientPhone": response.data.clientPhone
+                        ,"clientAddress": response.data.clientAddress
+                        ,"note": response.data.note
+                    });
 
                     //项目明细
                     layui.table.render({
@@ -260,28 +292,25 @@ function editProject(pid) {
                         elem: '#feeTable'
                         , cols: [[ //标题栏
                             {field: 'id', title: 'ID', sort: true}
-                            , {field: 'payNo', title: '收款单号', edit: 'text'}
-                            , {field: 'length', title: '支付金额', edit: 'text', event: 'number'}
-                            , {field: 'width', title: '支付日期', edit: 'text', event: 'date'}
-                            , {field: 'quantity', title: '用途(定金或付款)', edit: 'text', width: 140}
-                            , {field: 'price', title: '收款人', edit: 'text'}
+                            , {field: 'payNo', title: '收款单号'}
+                            , {field: 'length', title: '支付金额' }
+                            , {field: 'width', title: '支付日期', event: 'date'}
+                            , {field: 'quantity', title: '用途(定金或付款)', width: 140}
+                            , {field: 'price', title: '收款人'}
                         ]]
                         , data: response.data.pays
                     });
 
                     //数据绑定结束
-                    layui.table.on('edit(feeTable)', function(obj){
-                        var value = obj.value //得到修改后的值
-                            ,data = obj.data //得到所在行所有键值
-                            ,field = obj.field; //得到字段
-                        layer.msg('[ID: '+ data.id +'] 字段:' + field + ' event:' + obj.event + ' 更改为：'+ value);
-                        // if (obj.event==='number' && isNaN(obj.value)) {
 
-                            var selector = obj.tr.find('[data-field=' + obj.field + ']');
-                            var oldtext = layui.jquery(selector).text();
-                        //     obj.update(oldtext);
-                        // }
-                    });
+                    // layui.table.on('edit(feeTable)', function(obj){
+                    //     var value = obj.value //得到修改后的值
+                    //         ,data = obj.data //得到所在行所有键值
+                    //         ,field = obj.field; //得到字段
+                    //     layer.msg('[ID: '+ data.id +'] 字段:' + field + ' event:' + obj.event + ' 更改为：'+ value);
+                    //     // console.log(JSONString.)
+                    //
+                    // });
 
                     layui.table.on('tool(feeTable)', function (obj) {
                         var newdata = {};
@@ -299,6 +328,19 @@ function editProject(pid) {
                                     // alert(JSON.stringify(value))
                                 }
                             });
+                        }
+                        else if(obj.event === 'number') {
+                            // var field = layui.jquery(this).data('field');
+                            // var selector = obj.tr.selector+' td[data-field="'+obj.field+'"] div';
+                            // var oldtext = layui.jquery(selector).text();
+                            // //判断数据类型
+                            // if(!isNumber(obj.value)) {
+                            //     layer.msg('请输入数字');
+                            //     console.log(oldtext);
+                            //     // 重点 赋值
+                            //     layui.jquery(obj.tr.selector + ' td[data-field="' + obj.field + '"] input').val(oldtext);
+                            // }
+                            console.log("edit number cell....")
                         }
                     });
 
