@@ -61,10 +61,10 @@ public class Project {
     @TableField(value = "client_address")
     private String clientAddress;
 
-    @TableField(exist = false)
-    private List<ProjectDetail> details;
-
-    @TableField(exist = false)
-    private List<ProjectPay> pays;
+//    @TableField(exist = false)
+//    private List<ProjectDetail> details;
+//
+//    @TableField(exist = false)
+//    private List<ProjectPay> pays;
 
 }

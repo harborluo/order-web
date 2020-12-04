@@ -38,8 +38,8 @@ public class ResponseResult<T> {
         return new ResponseResult().builder().code(ResultCode.UNAUTHORIZED.getCode()).message("Operation unauthorized").build();
     }
 
-    public static ResponseResult error(){
-        return new ResponseResult().builder().code(ResultCode.INTERNAL_SERVER_ERROR.getCode()).message("Internal server error").build();
+    public static ResponseResult error(String msg){
+        return new ResponseResult().builder().code(ResultCode.INTERNAL_SERVER_ERROR.getCode()).message(msg).build();
     }
 
     public static ResponseResult notFound(String message){

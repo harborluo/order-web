@@ -198,7 +198,7 @@ function addProject() {
                     layer.closeAll();
                 },
                 error: function (res) {
-                    layer.alert(JSON.stringify(res), {icon: 2});
+                    layer.alert(JSON.stringify(res.responseJSON.message), {icon: 2});
                 }
 
             });
@@ -297,6 +297,9 @@ function editProject(pid) {
                         success: function (res){
                             layui.jquery("button#searchBtn").click();
                             layer.closeAll();
+                        },
+                        error: function (res) {
+                            layer.alert(JSON.stringify(res.message), {icon: 2});
                         }
                     });
 

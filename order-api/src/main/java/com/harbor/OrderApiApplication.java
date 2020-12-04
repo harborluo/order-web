@@ -8,7 +8,8 @@ import org.mybatis.spring.annotation.MapperScan;
 @SpringBootApplication(scanBasePackages={"com.harbor.config"
 		,"com.harbor.controller",
 		"com.harbor.service",
-		"com.harbor.mapper"})
+		"com.harbor.mapper",
+        "com.harbor.exception"})
 @MapperScan("com.harbor.mapper")
 public class OrderApiApplication {
 

@@ -2,6 +2,10 @@ package com.harbor.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import com.harbor.domain.ProjectDetailDomain;
+import com.harbor.domain.ProjectDomain;
+import com.harbor.domain.ProjectPayDomain;
 import com.harbor.entity.Project;
 import com.harbor.entity.ProjectDetail;
 import com.harbor.entity.ProjectPay;
@@ -10,6 +14,7 @@ import com.harbor.service.ProjectDetailService;
 import com.harbor.service.ProjectPayService;
 import com.harbor.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpHeaders;
@@ -19,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +75,7 @@ public class ProjectController {
     }
 
     @GetMapping("/project/{id}")
-    public ResponseResult<Project> retrieveProjectById(@PathVariable("id") int id){
+    public ResponseResult<ProjectDomain> retrieveProjectById(@PathVariable("id") int id){
 
         Project project = service.getById(id);
 
@@ -78,22 +84,47 @@ public class ProjectController {
             return ResponseResult.notFound("Project with id " + id + " not found");
         }
 
-        List<ProjectDetail> details = detailService.listByProjectId(id);
-        List<ProjectPay> pays = payService.listByProjectId(id);
-        project.setDetails(details);
-        project.setPays(pays);
+        ProjectDomain projectDomain = new ProjectDomain();
+        BeanUtils.copyProperties(project, projectDomain);
 
-        return  ResponseResult.ok(project);
+        List<ProjectDetail> details = detailService.listByProjectId(id);
+
+        List<ProjectDetailDomain> detailDomains = new ArrayList<>(details.size());
+        for (ProjectDetail detail : details){
+            ProjectDetailDomain domain = new ProjectDetailDomain();
+            BeanUtils.copyProperties(detail, domain);
+            detailDomains.add(domain);
+        }
+
+        List<ProjectPay> pays = payService.listByProjectId(id);
+
+        List<ProjectPayDomain> payDomains = new ArrayList<>(pays.size());
+        for (ProjectPay pay : pays){
+            ProjectPayDomain domain = new ProjectPayDomain();
+            BeanUtils.copyProperties(pay, domain);
+            payDomains.add(domain);
+        }
+
+
+        projectDomain.setDetails(detailDomains);
+        projectDomain.setPays(payDomains);
+
+        return  ResponseResult.ok(projectDomain);
     }
 
     @PostMapping("/project")
-    public ResponseResult<String> createProject(@RequestBody Project project){
+    public ResponseResult<String> createProject(@Validated @RequestBody ProjectDomain projectDomain){
+        Project project = new Project();
+        BeanUtils.copyProperties(projectDomain, project);
         service.save(project);
         return  ResponseResult.ok("添加成功！");
     }
 
     @PutMapping("/project")
-    public ResponseResult<String> updateProject(@RequestBody Project project){
+    public ResponseResult<String> updateProject(@Validated @RequestBody ProjectDomain projectDomain){
+
+        Project project = new Project();
+        BeanUtils.copyProperties(projectDomain, project);
 
         service.updateById(project);
         return  ResponseResult.ok("修改成功！");
