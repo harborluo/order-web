@@ -82,7 +82,17 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         page: true,
         limit : 10,
         limits: [10, 25, 50, 100],
-        id: 'demoTable'
+        id: 'demoTable',
+        done : function (res, curr) {
+            // layer.alert("数据加载完成...", {icon: 1});
+            var costTotal = res.map.costTotal;
+            var costPaidTotal = res.map.costPaidTotal;
+            var unPaidTotal = costTotal - costPaidTotal;
+            $("div#costTotal").html(costTotal);
+            $("div#costPaidTotal").html(costPaidTotal);
+            $("div#unPaidTotal").html(unPaidTotal);
+
+        }
     });
 
 

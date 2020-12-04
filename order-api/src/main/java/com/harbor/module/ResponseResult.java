@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 /**
  * Created by harbor on 2020/3/28.
  */
@@ -18,8 +20,14 @@ public class ResponseResult<T> {
     private String message;
     private T data;
 
+    private Map<String,Object> map;
+
     public static <T> ResponseResult<T> ok(T data) {
-        return new ResponseResult<T>(ResultCode.SUCCESS.getCode(), "Success", data);
+        return new ResponseResult<T>(ResultCode.SUCCESS.getCode(), "Success", data, null);
+    }
+
+    public static <T> ResponseResult<T> ok(T data, Map<String,Object> map) {
+        return new ResponseResult<T>(ResultCode.SUCCESS.getCode(), "Success", data, map);
     }
 
     public static ResponseResult ok(){

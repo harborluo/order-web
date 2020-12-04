@@ -59,11 +59,12 @@ public class ProjectController {
 
         HttpHeaders headers = new HttpHeaders();
 
+
         sumMap.forEach((key, value) -> {
             headers.add(key, value.toString());
         });
 
-        ResponseEntity response = new ResponseEntity<>(ResponseResult.ok(result), headers, HttpStatus.OK);
+        ResponseEntity response = new ResponseEntity<>(ResponseResult.ok(result, sumMap), headers, HttpStatus.OK);
 
         return  response;
     }
