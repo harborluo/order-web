@@ -22,4 +22,6 @@ public interface ProjectService extends IService<Project> {
                                       String serialNo,
                                       String isValidate,
                                       String isDealDone);
+
+    void removeByIds(List<Integer> ids);
 }

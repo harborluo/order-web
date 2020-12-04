@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -84,9 +85,14 @@ public class ProjectController {
         return  ResponseResult.ok("修改成功！");
     }
 
-    @DeleteMapping("/project/{id}")
-    public ResponseResult<Void> deleteProject(@PathVariable("id") Integer id) {
-        service.removeById(id);
+    @DeleteMapping("/project")
+    public ResponseResult<Void> deleteProject(@RequestBody List<Integer> ids) {
+
+//        log.info("remove project with ids: {}", String.join(",", ids));
+
+        payService.removeByProjectIds(ids);
+        detailService.removeByProjectIds(ids);
+        service.removeByIds(ids);
 
         return ResponseResult.ok();
     }

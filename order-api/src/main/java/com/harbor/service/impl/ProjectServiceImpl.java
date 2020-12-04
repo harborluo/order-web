@@ -77,4 +77,9 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
         return baseMapper.selectPage(new Page<Project>(page, pageSize), entityWrapper);
     }
+
+    @Override
+    public void removeByIds(List<Integer> ids) {
+        baseMapper.deleteBatchIds(ids);
+    }
 }

@@ -6,6 +6,7 @@ import com.harbor.entity.Project;
 import com.harbor.entity.ProjectDetail;
 import com.harbor.mapper.ProjectDetailMapper;
 import com.harbor.service.ProjectDetailService;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -24,5 +25,10 @@ public class ProjectDetailServiceImpl extends ServiceImpl<ProjectDetailMapper, P
         queryWrapper.eq("project_id", projectId);
         queryWrapper.select("*");
         return this.baseMapper.selectList(queryWrapper);
+    }
+
+    @Delete("delete from project_pay where project_id in #{projectIds}")
+    public void removeByProjectIds(List<Integer> projectIds) {
+
     }
 }

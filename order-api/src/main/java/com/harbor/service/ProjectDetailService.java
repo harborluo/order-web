@@ -8,4 +8,6 @@ import java.util.List;
 public interface ProjectDetailService extends IService<ProjectDetail> {
 
     List<ProjectDetail> listByProjectId(int projectId);
+
+    void removeByProjectIds(List<Integer> projectIds);
 }

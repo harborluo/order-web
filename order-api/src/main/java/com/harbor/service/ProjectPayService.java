@@ -10,4 +10,6 @@ public interface ProjectPayService extends IService<ProjectPay> {
 
     List<ProjectPay> listByProjectId(int projectId);
 
+    void removeByProjectIds(List<Integer> projectIds);
+
 }

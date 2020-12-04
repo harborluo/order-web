@@ -109,6 +109,10 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         addProject();
     });
 
+    $("button#delBtn").click(function (ev) {
+        delProject();
+    });
+
     //监听行单击事件（双击事件为：rowDouble）
     table.on('row(demoTable)', function(obj){
         // var data = obj.data;
@@ -117,6 +121,39 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
     });
 
 });
+
+function delProject() {
+    var selectedData = layui.table.checkStatus('demoTable').data;
+    // layer.alert(JSON.stringify(selectedData), {icon: 1});
+    var ids = [];
+    for (let p of selectedData) {
+        ids.push(p.id);
+    }
+
+    if (ids.length === 0) {
+        layer.alert("没选中数据.", {icon: 1});
+        return;
+    }
+
+    layer.confirm('确定删除？', {icon: 3, title:'提示'}, function(index){
+        //do something
+        layui.jquery.ajax({
+            type: 'delete',
+            url: "/project",
+            data: JSON.stringify(ids),
+            dataType: "json",
+            contentType : 'application/json;charset=UTF-8',
+            success: function (res){
+                layui.jquery("button#searchBtn").click();
+            }
+        });
+        layer.close(index);
+    });
+
+    console.log("remove projects with ids " + JSON.stringify(ids));
+
+
+}
 
 function addProject() {
 
@@ -142,6 +179,9 @@ function addProject() {
                 success: function (res){
                     layui.jquery("button#searchBtn").click();
                     layer.closeAll();
+                },
+                error: function (res) {
+                    layer.alert(JSON.stringify(res), {icon: 2});
                 }
 
             });
