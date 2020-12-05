@@ -185,7 +185,7 @@ function delProject() {
 function addProject() {
 
     layer.open({
-        area: '700px',
+        area: '800px',
         type: 1,
         title: '添加记录：',
         content: layui.jquery("#project-form"),
@@ -543,7 +543,7 @@ function editProject(pid) {
         success:function(response){
 
             layer.open({
-                area: '700px',
+                area: '800px',
                 type: 1,
                 title: '修改记录：',
                 content: layui.jquery("#project-form"),
