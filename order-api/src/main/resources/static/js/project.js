@@ -47,6 +47,8 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         // skin: 'row' //行边框风格
         elem: '#demoTable'
         ,url:'/projects'
+        ,defaultToolbar: [] //这里在右边显示
+        ,toolbar: '#toolbarProject'
         //,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
         // ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
         ,cols: [[
@@ -103,32 +105,32 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
     });
 
 
-    $("button#searchBtn").click(function (ev) {
-        console.info("searchBtn clicked.");
-        table.reload('demoTable', {
-            where: {
-                // page: 1,
-                serialNo: $("#serialNo").val(),
-                isDealDone: $("#isOK").val(),
-                isValidate: $('#isValidate').is(':checked') ? "N" : "Y",
-                dateType: $("#dateType").val(),
-                projectFromDate: $("#dateType").val() == "projectDate" ? $("#beginDate").val() : "",
-                projectToDate: $("#dateType").val() == "projectDate" ? $("#endDate").val() : "",
-                payFromDate: $("#dateType").val() == "payDate" ? $("#beginDate").val() : "",
-                payToDate: $("#dateType").val() == "payDate" ? $("#endDate").val() : ""
-            } //设定异步数据接口的额外参数
+    // $("button#searchBtn").click(function (ev) {
+    //     console.info("searchBtn clicked.");
+    //     table.reload('demoTable', {
+    //         where: {
+    //             // page: 1,
+    //             serialNo: $("#serialNo").val(),
+    //             isDealDone: $("#isOK").val(),
+    //             isValidate: $('#isValidate').is(':checked') ? "N" : "Y",
+    //             dateType: $("#dateType").val(),
+    //             projectFromDate: $("#dateType").val() == "projectDate" ? $("#beginDate").val() : "",
+    //             projectToDate: $("#dateType").val() == "projectDate" ? $("#endDate").val() : "",
+    //             payFromDate: $("#dateType").val() == "payDate" ? $("#beginDate").val() : "",
+    //             payToDate: $("#dateType").val() == "payDate" ? $("#endDate").val() : ""
+    //         } //设定异步数据接口的额外参数
+    //
+    //     });
+    //
+    // });
 
-        });
-
-    });
-
-    $("button#addBtn").click(function (ev) {
-        addProject();
-    });
-
-    $("button#delBtn").click(function (ev) {
-        delProject();
-    });
+    // $("button#addBtn").click(function (ev) {
+    //     addProject();
+    // });
+    //
+    // $("button#delBtn").click(function (ev) {
+    //     delProject();
+    // });
 
     //监听行单击事件（双击事件为：rowDouble）
     table.on('row(demoTable)', function(obj){
@@ -137,7 +139,39 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
     });
 
+    table.on('toolbar(demoTable)', function(obj){
+        if(obj.event === 'search'){
+            searchProject();
+        } else if(obj.event === 'add'){
+            addProject();
+        } else if(obj.event === 'del'){
+            delProject();
+        } else if(obj.event === 'exp'){
+            console.log('excel export');
+        }
+
+    });
+
 });
+
+function searchProject() {
+    console.info("searchBtn clicked.");
+    var $ = layui.jquery;
+    layui.table.reload('demoTable', {
+        where: {
+            // page: 1,
+            serialNo: $("#serialNo").val(),
+            isDealDone: $("#isOK").val(),
+            isValidate: $('#isValidate').is(':checked') ? "N" : "Y",
+            dateType: $("#dateType").val(),
+            projectFromDate: $("#dateType").val() == "projectDate" ? $("#beginDate").val() : "",
+            projectToDate: $("#dateType").val() == "projectDate" ? $("#endDate").val() : "",
+            payFromDate: $("#dateType").val() == "payDate" ? $("#beginDate").val() : "",
+            payToDate: $("#dateType").val() == "payDate" ? $("#endDate").val() : ""
+        } //设定异步数据接口的额外参数
+
+    });
+}
 
 function delProject() {
     var selectedData = layui.table.checkStatus('demoTable').data;
@@ -161,7 +195,8 @@ function delProject() {
             dataType: "json",
             contentType : 'application/json;charset=UTF-8',
             success: function (res){
-                layui.jquery("button#searchBtn").click();
+                // layui.jquery("button#searchBtn").click();
+                searchProject();
             }
         });
         layer.close(index);
@@ -194,7 +229,8 @@ function addProject() {
                 dataType: "json",
                 contentType : 'application/json;charset=UTF-8',
                 success: function (res){
-                    layui.jquery("button#searchBtn").click();
+                    // layui.jquery("button#searchBtn").click();
+                    searchProject();
                     layer.closeAll();
                 },
                 error: function (res) {
@@ -234,6 +270,8 @@ function addProject() {
             //项目明细
             layui.table.render({
                 elem: '#detailTable'
+                ,defaultToolbar: [] //这里在右边显示
+                ,toolbar: '#toolbarDemo'
                 , cols: [[ //标题栏
                     {field: 'id', title: 'ID', sort: true}
                     , {field: 'material', title: '材料'}
@@ -249,6 +287,8 @@ function addProject() {
             //收费明细
             layui.table.render({
                 elem: '#feeTable'
+                ,defaultToolbar: [] //这里在右边显示
+                ,toolbar: '#toolbarDemo'
                 , cols: [[ //标题栏
                     {field: 'id', title: 'ID', sort: true}
                     , {field: 'payNo', title: '收款单号'}
@@ -295,11 +335,12 @@ function editProject(pid) {
                         dataType: "json",
                         contentType : 'application/json;charset=UTF-8',
                         success: function (res){
-                            layui.jquery("button#searchBtn").click();
+                            // layui.jquery("button#searchBtn").click();
+                            searchProject();
                             layer.closeAll();
                         },
                         error: function (res) {
-                            layer.alert(JSON.stringify(res.message), {icon: 2});
+                            layer.alert(JSON.stringify(res.responseJSON.message), {icon: 2});
                         }
                     });
 
