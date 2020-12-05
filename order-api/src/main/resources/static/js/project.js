@@ -47,7 +47,11 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         // skin: 'row' //行边框风格
         elem: '#demoTable'
         ,url:'/projects'
-        ,defaultToolbar: [] //这里在右边显示
+        ,defaultToolbar: ['filter', 'print', 'exports', {
+            title: '提示' //标题
+            ,layEvent: 'LAYTABLE_TIPS' //事件名，用于 toolbar 事件中使用
+            ,icon: 'layui-icon-tips' //图标类名
+        }]
         ,toolbar: '#toolbarProject'
         //,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
         // ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
@@ -93,9 +97,6 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
             var costTotal = res.map.costTotal;
             var costPaidTotal = res.map.costPaidTotal;
             var unPaidTotal = costTotal - costPaidTotal;
-            // $("div#costTotal").html(costTotal);
-            // $("div#costPaidTotal").html(costPaidTotal);
-            // $("div#unPaidTotal").html(unPaidTotal);
 
             this.elem.next().find('.layui-table-total td[data-field="cost"] .layui-table-cell').text(costTotal);
             this.elem.next().find('.layui-table-total td[data-field="costPaid"] .layui-table-cell').text(costPaidTotal);
@@ -104,34 +105,6 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         }
     });
 
-
-    // $("button#searchBtn").click(function (ev) {
-    //     console.info("searchBtn clicked.");
-    //     table.reload('demoTable', {
-    //         where: {
-    //             // page: 1,
-    //             serialNo: $("#serialNo").val(),
-    //             isDealDone: $("#isOK").val(),
-    //             isValidate: $('#isValidate').is(':checked') ? "N" : "Y",
-    //             dateType: $("#dateType").val(),
-    //             projectFromDate: $("#dateType").val() == "projectDate" ? $("#beginDate").val() : "",
-    //             projectToDate: $("#dateType").val() == "projectDate" ? $("#endDate").val() : "",
-    //             payFromDate: $("#dateType").val() == "payDate" ? $("#beginDate").val() : "",
-    //             payToDate: $("#dateType").val() == "payDate" ? $("#endDate").val() : ""
-    //         } //设定异步数据接口的额外参数
-    //
-    //     });
-    //
-    // });
-
-    // $("button#addBtn").click(function (ev) {
-    //     addProject();
-    // });
-    //
-    // $("button#delBtn").click(function (ev) {
-    //     delProject();
-    // });
-
     //监听行单击事件（双击事件为：rowDouble）
     table.on('row(demoTable)', function(obj){
         // var data = obj.data;
@@ -139,6 +112,7 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
     });
 
+    //监听工具栏按钮点击
     table.on('toolbar(demoTable)', function(obj){
         if(obj.event === 'search'){
             searchProject();
@@ -271,7 +245,7 @@ function addProject() {
             layui.table.render({
                 elem: '#detailTable'
                 ,defaultToolbar: [] //这里在右边显示
-                ,toolbar: '#toolbarDemo'
+                ,toolbar: '#toolbarDetail'
                 , cols: [[ //标题栏
                     {field: 'id', title: 'ID', sort: true}
                     , {field: 'material', title: '材料'}
@@ -282,13 +256,31 @@ function addProject() {
                     , {field: 'note', title: '备注'}
                 ]]
                 , data: []
+
+            });
+
+            layui.table.on('toolbar(toolbarDetail)', function(obj){
+
+                layui.layer.alert(JSON.stringify("toolbar(toolbarDetail)"), {icon: 1});
+
+                if(obj.event === 'add'){
+                    layui.layer.open({
+                        // area: '700px',
+                        type: 1,
+                        title: '添加记录：',
+                        content: layui.jquery("#project-detail-form"),
+                        btn: ['保存', '取消'],
+                        btnAlign: 'c'
+                    });
+                }
+
             });
 
             //收费明细
             layui.table.render({
                 elem: '#feeTable'
                 ,defaultToolbar: [] //这里在右边显示
-                ,toolbar: '#toolbarDemo'
+                ,toolbar: '#toolbarPay'
                 , cols: [[ //标题栏
                     {field: 'id', title: 'ID', sort: true}
                     , {field: 'payNo', title: '收款单号'}

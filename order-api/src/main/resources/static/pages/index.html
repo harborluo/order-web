@@ -137,9 +137,83 @@
     </div>
 </div>
 
-<script type="text/html" id="toolbarDemo">
+<script type="text/html" id="toolbarDetail">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加项目明细</button>
+    </div>
+</script>
+
+
+<div class="layui-tab" id="project-detail-form" style="display:none">
+
+    <div class="layui-tab-item layui-show">
+
+        <form class="layui-form" lay-filter="project-form">
+
+            <input type="hidden" name="id" value="">
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">材料</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">长</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">宽</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">数量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">单价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" >备注</label>
+                <div class="layui-input-block">
+                    <textarea lay-verify="required" name="note" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script type="text/html" id="toolbarPay">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加收费明细</button>
     </div>
 </script>
 
