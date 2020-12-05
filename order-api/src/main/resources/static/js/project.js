@@ -343,6 +343,26 @@ function addProject() {
 
                         layui.layer.close(index);
                     },
+                    btn2: function (index, layero) {
+                        //按钮 [删除] 的回调
+                        var formData = layui.form.val("project-detail-form");
+                        var oldData = layui.table.cache["detailTable"];
+                        var tableArr = [];
+                        for (var i = 0, row; i < oldData.length; i++) {
+                            row = oldData[i];
+                            if (row.rid === formData.rid) {
+                                oldData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
+                                break;
+                            }
+                        }
+                        tableArr = oldData;
+
+                        layui.table.reload('detailTable',{
+                            data: tableArr
+                        });
+
+                        layui.layer.close(index);
+                    },
                     cancel: function(){
                         //右上角关闭回调
                         //return false 开启该代码可禁止点击该按钮关闭
@@ -350,6 +370,7 @@ function addProject() {
                     success: function () {
                         layui.form.val("project-detail-form", {
                             "id" : rowData.id
+                            ,"rid": rowData.rid
                             ,"material": rowData.material
                             ,"length": rowData.length
                             ,"width": rowData.width
