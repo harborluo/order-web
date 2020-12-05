@@ -587,7 +587,7 @@ function editProject(pid) {
                     layui.jquery.ajax({
                         type: 'put',
                         url: "/project",
-                        data: JSON.stringify(data1),
+                        data: JSON.stringify(editProject),
                         dataType: "json",
                         contentType : 'application/json;charset=UTF-8',
                         success: function (res){
