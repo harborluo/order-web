@@ -86,7 +86,6 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
             ,msgName: 'message' //规定状态信息的字段名称，默认：msg
             ,countName: 'data.total' //规定数据总数的字段名称，默认：count
             ,dataName: 'data.records' //规定数据列表的字段名称，默认：data
-
         },
         page: true,
         limit : 10,
@@ -97,11 +96,9 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
             var costTotal = res.map.costTotal;
             var costPaidTotal = res.map.costPaidTotal;
             var unPaidTotal = costTotal - costPaidTotal;
-
             this.elem.next().find('.layui-table-total td[data-field="cost"] .layui-table-cell').text(costTotal);
             this.elem.next().find('.layui-table-total td[data-field="costPaid"] .layui-table-cell').text(costPaidTotal);
             this.elem.next().find('.layui-table-total td[data-field="clientName"] .layui-table-cell').text('余款未收: ' + unPaidTotal);
-
         }
     });
 
@@ -192,14 +189,16 @@ function addProject() {
         btnAlign: 'c',
         yes: function(index, layero){
             //按钮 [保存] 的回调
-            var data1 = layui.form.val("project-form");
+            var newProject = layui.form.val("project-form");
+
+            newProject['details'] = layui.table.cache["detailTable"]
 
             // layer.alert(JSON.stringify(data1), {icon: 1});
 
             layui.jquery.ajax({
                 type: 'post',
                 url: "/project",
-                data: JSON.stringify(data1),
+                data: JSON.stringify(newProject),
                 dataType: "json",
                 contentType : 'application/json;charset=UTF-8',
                 success: function (res){
@@ -249,30 +248,117 @@ function addProject() {
                 , cols: [[ //标题栏
                     {field: 'id', title: 'ID', sort: true}
                     , {field: 'material', title: '材料'}
-                    , {field: 'length', title: '长' }
-                    , {field: 'width', title: '宽'}
-                    , {field: 'quantity', title: '数量'}
-                    , {field: 'price', title: '单价'}
+                    , {field: 'length', title: '长', align: 'right' }
+                    , {field: 'width', title: '宽', align: 'right'}
+                    , {field: 'quantity', title: '数量', align: 'right'}
+                    , {field: 'price', title: '单价', align: 'right'}
                     , {field: 'note', title: '备注'}
                 ]]
                 , data: []
 
             });
 
-            layui.table.on('toolbar(toolbarDetail)', function(obj){
+            // layui.layer.alert(JSON.stringify("toolbar(toolbarDetail)"), {icon: 1});
 
-                layui.layer.alert(JSON.stringify("toolbar(toolbarDetail)"), {icon: 1});
+            layui.table.on('toolbar(detailTable)', function(obj){
 
                 if(obj.event === 'add'){
                     layui.layer.open({
                         // area: '700px',
                         type: 1,
-                        title: '添加记录：',
+                        title: '添加 - 项目明细：',
                         content: layui.jquery("#project-detail-form"),
                         btn: ['保存', '取消'],
-                        btnAlign: 'c'
+                        btnAlign: 'c',
+                        yes: function(index, layero) {
+                            //按钮 [保存] 的回调
+                            var newRow = layui.form.val("project-detail-form");
+
+                            // layer.alert(JSON.stringify(detailData), {icon: 1});
+
+                            var oldData = layui.table.cache["detailTable"];
+                            console.log(newRow);
+                            oldData.push(newRow);
+
+                            layui.table.reload('detailTable',{
+                                data: oldData
+                            });
+
+                            layui.layer.close(index);
+                        },
+                        cancel: function(){
+                            //右上角关闭回调
+                            //return false 开启该代码可禁止点击该按钮关闭
+                        },
+                        success: function () {
+                            layui.form.val("project-detail-form", {
+                                "rid" : "n-" +  (layui.table.cache["detailTable"].length + 1)
+                                ,"material": ""
+                                ,"length": ""
+                                ,"width": ""
+                                ,"quantity": ""
+                                ,"price": ""
+                                ,"note": ""
+                            });
+                        }
                     });
                 }
+
+            });
+
+            //点击明细行，弹出修改窗口
+            layui.table.on('row(detailTable)', function(obj){
+
+                //标注选中样式
+                obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+
+                var rowData = obj.data;
+
+                layui.layer.open({
+                    // area: '700px',
+                    type: 1,
+                    title: '修改 - 项目明细：',
+                    content: layui.jquery("#project-detail-form"),
+                    btn: ['修改', '删除', '取消'],
+                    btnAlign: 'c',
+                    yes: function(index, layero) {
+                        //按钮 [保存] 的回调
+                        var formData = layui.form.val("project-detail-form");
+
+                        var oldData = layui.table.cache["detailTable"];
+                        console.log(formData);
+                        // oldData.push(newRow);
+
+                        for (var i = 0, row; i < oldData.length; i++) {
+                            row = oldData[i];
+                            if (row.rid == formData.rid) {
+                                layui.jquery.extend(oldData[i], formData);
+                                break;
+                            }
+                        }
+
+                        layui.table.reload('detailTable',{
+                            data: oldData
+                        });
+
+                        layui.layer.close(index);
+                    },
+                    cancel: function(){
+                        //右上角关闭回调
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    },
+                    success: function () {
+                        layui.form.val("project-detail-form", {
+                            "id" : rowData.id
+                            ,"material": rowData.material
+                            ,"length": rowData.length
+                            ,"width": rowData.width
+                            ,"quantity": rowData.quantity
+                            ,"price": rowData.price
+                            ,"note": rowData.note
+                        });
+                    }
+                });
 
             });
 
@@ -284,10 +370,10 @@ function addProject() {
                 , cols: [[ //标题栏
                     {field: 'id', title: 'ID', sort: true}
                     , {field: 'payNo', title: '收款单号'}
-                    , {field: 'length', title: '支付金额' }
-                    , {field: 'width', title: '支付日期'}
-                    , {field: 'quantity', title: '用途(定金或付款)', width: 140}
-                    , {field: 'price', title: '收款人'}
+                    , {field: 'pay', title: '支付金额', align: 'right' }
+                    , {field: 'payDate', title: '支付日期'}
+                    , {field: 'type', title: '用途(定金或付款)', width: 140}
+                    , {field: 'payee', title: '收款人'}
                 ]]
                 , data: []
             });
@@ -371,10 +457,10 @@ function editProject(pid) {
                         , cols: [[ //标题栏
                             {field: 'id', title: 'ID', sort: true}
                             , {field: 'material', title: '材料'}
-                            , {field: 'length', title: '长' }
-                            , {field: 'width', title: '宽'}
-                            , {field: 'quantity', title: '数量'}
-                            , {field: 'price', title: '单价'}
+                            , {field: 'length', title: '长', align:'right' }
+                            , {field: 'width', title: '宽', align:'right'}
+                            , {field: 'quantity', title: '数量', align:'right'}
+                            , {field: 'price', title: '单价', align:'right'}
                             , {field: 'note', title: '备注'}
                         ]]
                         , data: response.data.details
@@ -386,10 +472,10 @@ function editProject(pid) {
                         , cols: [[ //标题栏
                             {field: 'id', title: 'ID', sort: true}
                             , {field: 'payNo', title: '收款单号'}
-                            , {field: 'length', title: '支付金额' }
-                            , {field: 'width', title: '支付日期', event: 'date'}
-                            , {field: 'quantity', title: '用途(定金或付款)', width: 140}
-                            , {field: 'price', title: '收款人'}
+                            , {field: 'pay', title: '支付金额', align: 'right' }
+                            , {field: 'payDate', title: '支付日期'}
+                            , {field: 'type', title: '用途(定金或付款)', width: 140}
+                            , {field: 'payee', title: '收款人'}
                         ]]
                         , data: response.data.pays
                     });

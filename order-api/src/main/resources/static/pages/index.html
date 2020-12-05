@@ -148,15 +148,16 @@
 
     <div class="layui-tab-item layui-show">
 
-        <form class="layui-form" lay-filter="project-form">
+        <form class="layui-form" lay-filter="project-detail-form">
 
             <input type="hidden" name="id" value="">
+            <input type="hidden" name="rid" value="">
 
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">材料</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="material" lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -165,7 +166,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">长</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="length" lay-verify="number" style="text-align: right" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -174,7 +175,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">宽</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="width" lay-verify="number" style="text-align: right" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -183,7 +184,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">数量</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="quantity" lay-verify="number" style="text-align: right" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -192,7 +193,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">单价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="price" placeholder="￥" lay-verify="required|number" style="text-align: right" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -200,7 +201,7 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label" >备注</label>
                 <div class="layui-input-block">
-                    <textarea lay-verify="required" name="note" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea name="note" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
 

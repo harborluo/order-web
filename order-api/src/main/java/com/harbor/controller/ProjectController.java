@@ -117,6 +117,32 @@ public class ProjectController {
         Project project = new Project();
         BeanUtils.copyProperties(projectDomain, project);
         service.save(project);
+
+        if (projectDomain.getDetails() != null && projectDomain.getDetails().size() > 0) {
+            List<ProjectDetail> details = new ArrayList<>(projectDomain.getDetails().size());
+            for (ProjectDetailDomain detailDomain : projectDomain.getDetails()) {
+                ProjectDetail detail = new ProjectDetail();
+                BeanUtils.copyProperties(detailDomain, detail);
+                detail.setProjectId(project.getId());
+                details.add(detail);
+            }
+            detailService.saveBatch(details);
+            log.info("{} rows project detail created.", details.size());
+        }
+
+        if (projectDomain.getPays() != null && projectDomain.getPays().size() > 0) {
+            List<ProjectPay> pays = new ArrayList<>(projectDomain.getDetails().size());
+            for (ProjectPayDomain payDomain : projectDomain.getPays()) {
+                ProjectPay pay = new ProjectPay();
+                BeanUtils.copyProperties(payDomain, pay);
+                pay.setProjectId(project.getId());
+                pays.add(pay);
+            }
+            payService.saveBatch(pays);
+            log.info("{} rows project pay created.", pays.size());
+        }
+
+
         return  ResponseResult.ok("添加成功！");
     }
 
