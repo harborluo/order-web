@@ -152,6 +152,10 @@ public class ProjectController {
         Project project = new Project();
         BeanUtils.copyProperties(projectDomain, project);
 
+
+//        detailService.removeByIds();
+//        payService.removeByIds();
+
         service.updateById(project);
         return  ResponseResult.ok("修改成功！");
     }

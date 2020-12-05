@@ -198,6 +198,14 @@ function addProject() {
             newProject['details'] = layui.table.cache["detailTable"];
             newProject['pays'] = layui.table.cache["payTable"];
 
+            for (var o of newProject['details']) {
+                o['id'] = "";
+            }
+
+            for (var o of newProject['pays']) {
+                o['id'] = "";
+            }
+
             // layer.alert(JSON.stringify(data1), {icon: 1});
 
             layui.jquery.ajax({
@@ -251,7 +259,7 @@ function addProject() {
                 ,defaultToolbar: [] //这里在右边显示
                 ,toolbar: '#toolbarDetail'
                 , cols: [[ //标题栏
-                    {field: 'id', title: 'ID', sort: true}
+                    {field: 'id', title: 'ID', hide:true}
                     , {field: 'material', title: '材料'}
                     , {field: 'length', title: '长', align: 'right' }
                     , {field: 'width', title: '宽', align: 'right'}
@@ -263,138 +271,13 @@ function addProject() {
 
             });
 
-            // layui.layer.alert(JSON.stringify("toolbar(toolbarDetail)"), {icon: 1});
-
-            layui.table.on('toolbar(detailTable)', function(obj){
-
-                if(obj.event === 'add'){
-                    layui.layer.open({
-                        // area: '700px',
-                        type: 1,
-                        title: '添加 - 项目明细：',
-                        content: layui.jquery("#project-detail-form"),
-                        btn: ['保存', '取消'],
-                        btnAlign: 'c',
-                        yes: function(index, layero) {
-                            //按钮 [保存] 的回调
-                            var newRow = layui.form.val("project-detail-form");
-
-                            // layer.alert(JSON.stringify(detailData), {icon: 1});
-
-                            var oldData = layui.table.cache["detailTable"];
-                            console.log(newRow);
-                            oldData.push(newRow);
-
-                            layui.table.reload('detailTable',{
-                                data: oldData
-                            });
-
-                            layui.layer.close(index);
-                        },
-                        cancel: function(){
-                            //右上角关闭回调
-                            //return false 开启该代码可禁止点击该按钮关闭
-                        },
-                        success: function () {
-                            layui.form.val("project-detail-form", {
-                                "rid" : "n-" +  (layui.table.cache["detailTable"].length + 1)
-                                ,"material": ""
-                                ,"length": ""
-                                ,"width": ""
-                                ,"quantity": ""
-                                ,"price": ""
-                                ,"note": ""
-                            });
-                        }
-                    });
-                }
-
-            });
-
-            //点击明细行，弹出修改窗口
-            layui.table.on('row(detailTable)', function(obj){
-
-                //标注选中样式
-                obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-
-                var rowData = obj.data;
-
-                layui.layer.open({
-                    // area: '700px',
-                    type: 1,
-                    title: '修改 - 项目明细：',
-                    content: layui.jquery("#project-detail-form"),
-                    btn: ['修改', '删除', '取消'],
-                    btnAlign: 'c',
-                    yes: function(index, layero) {
-                        //按钮 [保存] 的回调
-                        var formData = layui.form.val("project-detail-form");
-
-                        var oldData = layui.table.cache["detailTable"];
-                        console.log(formData);
-                        // oldData.push(newRow);
-
-                        for (var i = 0, row; i < oldData.length; i++) {
-                            row = oldData[i];
-                            if (row.rid == formData.rid) {
-                                layui.jquery.extend(oldData[i], formData);
-                                break;
-                            }
-                        }
-
-                        layui.table.reload('detailTable',{
-                            data: oldData
-                        });
-
-                        layui.layer.close(index);
-                    },
-                    btn2: function (index, layero) {
-                        //按钮 [删除] 的回调
-                        var formData = layui.form.val("project-detail-form");
-                        var oldData = layui.table.cache["detailTable"];
-                        var tableArr = [];
-                        for (var i = 0, row; i < oldData.length; i++) {
-                            row = oldData[i];
-                            if (row.rid === formData.rid) {
-                                oldData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
-                                break;
-                            }
-                        }
-                        tableArr = oldData;
-
-                        layui.table.reload('detailTable',{
-                            data: tableArr
-                        });
-
-                        layui.layer.close(index);
-                    },
-                    cancel: function(){
-                        //右上角关闭回调
-                        //return false 开启该代码可禁止点击该按钮关闭
-                    },
-                    success: function () {
-                        layui.form.val("project-detail-form", {
-                            "id" : rowData.id
-                            ,"rid": rowData.rid
-                            ,"material": rowData.material
-                            ,"length": rowData.length
-                            ,"width": rowData.width
-                            ,"quantity": rowData.quantity
-                            ,"price": rowData.price
-                            ,"note": rowData.note
-                        });
-                    }
-                });
-
-            });
-
             //收费明细
             layui.table.render({
                 elem: '#payTable'
                 ,defaultToolbar: [] //这里在右边显示
                 ,toolbar: '#toolbarPay'
                 , cols: [[ //标题栏
-                    {field: 'id', title: 'ID', sort: true}
+                    {field: 'id', title: 'ID', hide:true}
                     , {field: 'payNo', title: '收款单号'}
                     , {field: 'pay', title: '支付金额', align: 'right' }
                     , {field: 'payDate', title: '支付日期'}
@@ -405,131 +288,262 @@ function addProject() {
             });
             //数据绑定结束
 
-            layui.table.on('toolbar(payTable)', function(obj){
-
-                if(obj.event === 'add'){
-                    layui.layer.open({
-                        // area: '700px',
-                        type: 1,
-                        title: '添加 - 收费明细：',
-                        content: layui.jquery("#project-pay-form"),
-                        btn: ['保存', '取消'],
-                        btnAlign: 'c',
-                        yes: function(index, layero) {
-                            //按钮 [保存] 的回调
-                            var newRow = layui.form.val("project-pay-form");
-
-                            // layer.alert(JSON.stringify(detailData), {icon: 1});
-
-                            var oldData = layui.table.cache["payTable"];
-                            console.log(newRow);
-                            oldData.push(newRow);
-
-                            layui.table.reload('payTable',{
-                                data: oldData
-                            });
-
-                            layui.layer.close(index);
-                        },
-                        cancel: function(){
-                            //右上角关闭回调
-                            //return false 开启该代码可禁止点击该按钮关闭
-                        },
-                        success: function () {
-                            layui.form.val("project-pay-form", {
-                                "rid" : "n-" +  (layui.table.cache["payTable"].length + 1)
-                                ,"payNo": ""
-                                ,"pay": ""
-                                ,"payDate": ""
-                                ,"type": ""
-                                ,"payee": ""
-                            });
-                        }
-                    });
-                }
-
-            });
-
-
-            //点击明细行，弹出修改窗口
-            layui.table.on('row(payTable)', function(obj){
-
-                //标注选中样式
-                obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-
-                var rowData = obj.data;
-
-                layui.layer.open({
-                    // area: '700px',
-                    type: 1,
-                    title: '修改 - 收费明细：',
-                    content: layui.jquery("#project-pay-form"),
-                    btn: ['修改', '删除', '取消'],
-                    btnAlign: 'c',
-                    yes: function(index, layero) {
-                        //按钮 [保存] 的回调
-                        var formData = layui.form.val("project-pay-form");
-
-                        var oldData = layui.table.cache["payTable"];
-                        console.log(formData);
-                        // oldData.push(newRow);
-
-                        for (var i = 0, row; i < oldData.length; i++) {
-                            row = oldData[i];
-                            if (row.rid == formData.rid) {
-                                layui.jquery.extend(oldData[i], formData);
-                                break;
-                            }
-                        }
-
-                        layui.table.reload('payTable',{
-                            data: oldData
-                        });
-
-                        layui.layer.close(index);
-                    },
-                    btn2: function (index, layero) {
-                        //按钮 [删除] 的回调
-                        var formData = layui.form.val("project-pay-form");
-                        var oldData = layui.table.cache["payTable"];
-                        var tableArr = [];
-                        for (var i = 0, row; i < oldData.length; i++) {
-                            row = oldData[i];
-                            if (row.rid === formData.rid) {
-                                oldData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
-                                break;
-                            }
-                        }
-                        tableArr = oldData;
-
-                        layui.table.reload('payTable',{
-                            data: tableArr
-                        });
-
-                        layui.layer.close(index);
-                    },
-                    cancel: function(){
-                        //右上角关闭回调
-                        //return false 开启该代码可禁止点击该按钮关闭
-                    },
-                    success: function () {
-                        layui.form.val("project-pay-form", {
-                            "id" : rowData.id
-                            ,"rid": rowData.rid
-                            ,"payNo": rowData.payNo
-                            ,"pay": rowData.pay
-                            ,"payDate": rowData.payDate
-                            ,"type": rowData.type
-                            ,"payee": rowData.payee
-                        });
-                    }
-                });
-
-            });
-
+            bindChildTableEvent();
         }
 
     });
+}
+
+function bindChildTableEvent() {
+
+    layui.table.on('toolbar(detailTable)', function(obj){
+
+        if(obj.event === 'add'){
+            layui.layer.open({
+                // area: '700px',
+                type: 1,
+                title: '添加 - 项目明细：',
+                content: layui.jquery("#project-detail-form"),
+                btn: ['保存', '取消'],
+                btnAlign: 'c',
+                yes: function(index, layero) {
+                    //按钮 [保存] 的回调
+                    var newRow = layui.form.val("project-detail-form");
+
+                    // layer.alert(JSON.stringify(detailData), {icon: 1});
+
+                    var oldData = layui.table.cache["detailTable"];
+                    console.log(newRow);
+                    oldData.push(newRow);
+
+                    layui.table.reload('detailTable',{
+                        data: oldData
+                    });
+
+                    layui.layer.close(index);
+                },
+                cancel: function(){
+                    //右上角关闭回调
+                    //return false 开启该代码可禁止点击该按钮关闭
+                },
+                success: function () {
+                    layui.form.val("project-detail-form", {
+                        // "id" : ""
+                        "id" : "n-" +  (layui.table.cache["detailTable"].length + 1)
+                        ,"material": ""
+                        ,"length": ""
+                        ,"width": ""
+                        ,"quantity": ""
+                        ,"price": ""
+                        ,"note": ""
+                    });
+                }
+            });
+        }
+
+    });
+
+    //点击明细行，弹出修改窗口
+    layui.table.on('row(detailTable)', function(obj){
+
+        //标注选中样式
+        obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+
+        var rowData = obj.data;
+
+        layui.layer.open({
+            // area: '700px',
+            type: 1,
+            title: '修改 - 项目明细：',
+            content: layui.jquery("#project-detail-form"),
+            btn: ['修改', '删除', '取消'],
+            btnAlign: 'c',
+            yes: function(index, layero) {
+                //按钮 [保存] 的回调
+                var formData = layui.form.val("project-detail-form");
+
+                var oldData = layui.table.cache["detailTable"];
+                console.log(formData);
+                // oldData.push(newRow);
+
+                for (var i = 0, row; i < oldData.length; i++) {
+                    row = oldData[i];
+                    if (  row.id == formData.id ) {
+                        layui.jquery.extend(oldData[i], formData);
+                        break;
+                    }
+                }
+
+                layui.table.reload('detailTable',{
+                    data: oldData
+                });
+
+                layui.layer.close(index);
+            },
+            btn2: function (index, layero) {
+                //按钮 [删除] 的回调
+                var formData = layui.form.val("project-detail-form");
+                var oldData = layui.table.cache["detailTable"];
+                var tableArr = [];
+                for (var i = 0, row; i < oldData.length; i++) {
+                    row = oldData[i];
+                    if (  row.id == formData.id ) {
+                        oldData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
+                        break;
+                    }
+                }
+                tableArr = oldData;
+
+                layui.table.reload('detailTable',{
+                    data: tableArr
+                });
+
+                layui.layer.close(index);
+            },
+            cancel: function(){
+                //右上角关闭回调
+                //return false 开启该代码可禁止点击该按钮关闭
+            },
+            success: function () {
+                layui.form.val("project-detail-form", {
+                    "id" : rowData.id
+                    ,"material": rowData.material
+                    ,"length": rowData.length
+                    ,"width": rowData.width
+                    ,"quantity": rowData.quantity
+                    ,"price": rowData.price
+                    ,"note": rowData.note
+                });
+            }
+        });
+
+    });
+
+
+
+    layui.table.on('toolbar(payTable)', function(obj){
+
+        if(obj.event === 'add'){
+            layui.layer.open({
+                // area: '700px',
+                type: 1,
+                title: '添加 - 收费明细：',
+                content: layui.jquery("#project-pay-form"),
+                btn: ['保存', '取消'],
+                btnAlign: 'c',
+                yes: function(index, layero) {
+                    //按钮 [保存] 的回调
+                    var newRow = layui.form.val("project-pay-form");
+
+                    // layer.alert(JSON.stringify(detailData), {icon: 1});
+
+                    var oldData = layui.table.cache["payTable"];
+                    console.log(newRow);
+                    oldData.push(newRow);
+
+                    layui.table.reload('payTable',{
+                        data: oldData
+                    });
+
+                    layui.layer.close(index);
+                },
+                cancel: function(){
+                    //右上角关闭回调
+                    //return false 开启该代码可禁止点击该按钮关闭
+                },
+                success: function () {
+                    layui.form.val("project-pay-form", {
+                        // "id": ""
+                        "id" : "n-" +  (layui.table.cache["payTable"].length + 1)
+                        ,"payNo": ""
+                        ,"pay": ""
+                        ,"payDate": ""
+                        ,"type": ""
+                        ,"payee": ""
+                    });
+                }
+            });
+        }
+
+    });
+
+
+    //点击明细行，弹出修改窗口
+    layui.table.on('row(payTable)', function(obj){
+
+        //标注选中样式
+        obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+
+        var rowData = obj.data;
+
+        layui.layer.open({
+            // area: '700px',
+            type: 1,
+            title: '修改 - 收费明细：',
+            content: layui.jquery("#project-pay-form"),
+            btn: ['修改', '删除', '取消'],
+            btnAlign: 'c',
+            yes: function(index, layero) {
+                //按钮 [保存] 的回调
+                var formData = layui.form.val("project-pay-form");
+
+                var oldData = layui.table.cache["payTable"];
+                console.log(formData);
+                // oldData.push(newRow);
+
+                for (var i = 0, row; i < oldData.length; i++) {
+                    row = oldData[i];
+                    if (row.id == formData.id) {
+                        layui.jquery.extend(oldData[i], formData);
+                        break;
+                    }
+                }
+
+                layui.table.reload('payTable',{
+                    data: oldData
+                });
+
+                layui.layer.close(index);
+            },
+            btn2: function (index, layero) {
+                //按钮 [删除] 的回调
+                var formData = layui.form.val("project-pay-form");
+                var oldData = layui.table.cache["payTable"];
+                var tableArr = [];
+                for (var i = 0, row; i < oldData.length; i++) {
+                    row = oldData[i];
+                    if (row.id === formData.id) {
+                        oldData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
+                        break;
+                    }
+                }
+                tableArr = oldData;
+
+                layui.table.reload('payTable',{
+                    data: tableArr
+                });
+
+                layui.layer.close(index);
+            },
+            cancel: function(){
+                //右上角关闭回调
+                //return false 开启该代码可禁止点击该按钮关闭
+            },
+            success: function () {
+                layui.form.val("project-pay-form", {
+                    "id" : rowData.id
+                    // ,"id": rowData.id
+                    ,"payNo": rowData.payNo
+                    ,"pay": rowData.pay
+                    ,"payDate": rowData.payDate
+                    ,"type": rowData.type
+                    ,"payee": rowData.payee
+                });
+            }
+        });
+
+    });
+
 }
 
 function editProject(pid) {
@@ -551,7 +565,22 @@ function editProject(pid) {
                 btn: ['保存', '取消'],
                 yes: function(index, layero){
                     //按钮 '保存' 的回调
-                    var data1 = form.val("project-form");
+                    var editProject = form.val("project-form");
+
+                    editProject['details'] = layui.table.cache["detailTable"];
+                    editProject['pays'] = layui.table.cache["payTable"];
+
+                    for (var o of editProject['details']) {
+                        if (isNaN(o['id'])) {
+                            o['id'] = "";
+                        }
+                    }
+
+                    for (var o of editProject['pays']) {
+                        if (isNaN(o['id'])) {
+                            o['id'] = "";
+                        }
+                    }
 
                     // layer.alert(JSON.stringify(data1), {icon: 1});
 
@@ -603,8 +632,10 @@ function editProject(pid) {
                     //项目明细
                     layui.table.render({
                         elem: '#detailTable'
+                        ,defaultToolbar: [] //这里在右边显示
+                        ,toolbar: '#toolbarDetail'
                         , cols: [[ //标题栏
-                            {field: 'id', title: 'ID', sort: true}
+                            {field: 'id', title: 'ID', hide:true}
                             , {field: 'material', title: '材料'}
                             , {field: 'length', title: '长', align:'right' }
                             , {field: 'width', title: '宽', align:'right'}
@@ -618,8 +649,10 @@ function editProject(pid) {
                     //收费明细
                     layui.table.render({
                         elem: '#payTable'
+                        ,defaultToolbar: [] //这里在右边显示
+                        ,toolbar: '#toolbarPay'
                         , cols: [[ //标题栏
-                            {field: 'id', title: 'ID', sort: true}
+                            {field: 'id', title: 'ID', hide:true}
                             , {field: 'payNo', title: '收款单号'}
                             , {field: 'pay', title: '支付金额', align: 'right' }
                             , {field: 'payDate', title: '支付日期'}
@@ -630,6 +663,8 @@ function editProject(pid) {
                     });
 
                     //数据绑定结束
+
+                    bindChildTableEvent();
 
                     // layui.table.on('edit(payTable)', function(obj){
                     //     var value = obj.value //得到修改后的值
