@@ -131,7 +131,7 @@
         </div>
 
         <div class="layui-tab-item">
-            <table id="feeTable" lay-filter="feeTable"></table>
+            <table id="payTable" lay-filter="payTable"></table>
         </div>
 
     </div>
@@ -217,6 +217,68 @@
         <button class="layui-btn layui-btn-sm" lay-event="add">添加收费明细</button>
     </div>
 </script>
+
+
+<div class="layui-tab" id="project-pay-form" style="display:none">
+
+    <div class="layui-tab-item layui-show">
+
+        <form class="layui-form" lay-filter="project-pay-form">
+
+            <input type="hidden" name="id" value="">
+            <input type="hidden" name="rid" value="">
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">收款单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="payNo" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">支付金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="pay" placeholder="￥" lay-verify="number" style="text-align: right" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">支付日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="payDate" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">用途(定金或付款)</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="type" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">收款人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="payee" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 
 <script type="text/html" id="toolbarProject">
     <div class="layui-btn-container">

@@ -27,7 +27,7 @@ public class ProjectPay {
     @TableField(value = "type")
     private String type;
 
-    @TableField(value = "pay_ee")
+    @TableField(value = "payee")
     private String payee;
 
     @TableField(value = "pay_no")

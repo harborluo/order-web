@@ -35,6 +35,10 @@ layui.use('laydate', function() {
         elem: "#project-form input[name='finishDate']"
     });
 
+    laydate.render({
+        elem: "#project-pay-form input[name='payDate']"
+    });
+
 });
 
 layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
@@ -191,7 +195,8 @@ function addProject() {
             //按钮 [保存] 的回调
             var newProject = layui.form.val("project-form");
 
-            newProject['details'] = layui.table.cache["detailTable"]
+            newProject['details'] = layui.table.cache["detailTable"];
+            newProject['pays'] = layui.table.cache["payTable"];
 
             // layer.alert(JSON.stringify(data1), {icon: 1});
 
@@ -385,7 +390,7 @@ function addProject() {
 
             //收费明细
             layui.table.render({
-                elem: '#feeTable'
+                elem: '#payTable'
                 ,defaultToolbar: [] //这里在右边显示
                 ,toolbar: '#toolbarPay'
                 , cols: [[ //标题栏
@@ -399,6 +404,129 @@ function addProject() {
                 , data: []
             });
             //数据绑定结束
+
+            layui.table.on('toolbar(payTable)', function(obj){
+
+                if(obj.event === 'add'){
+                    layui.layer.open({
+                        // area: '700px',
+                        type: 1,
+                        title: '添加 - 收费明细：',
+                        content: layui.jquery("#project-pay-form"),
+                        btn: ['保存', '取消'],
+                        btnAlign: 'c',
+                        yes: function(index, layero) {
+                            //按钮 [保存] 的回调
+                            var newRow = layui.form.val("project-pay-form");
+
+                            // layer.alert(JSON.stringify(detailData), {icon: 1});
+
+                            var oldData = layui.table.cache["payTable"];
+                            console.log(newRow);
+                            oldData.push(newRow);
+
+                            layui.table.reload('payTable',{
+                                data: oldData
+                            });
+
+                            layui.layer.close(index);
+                        },
+                        cancel: function(){
+                            //右上角关闭回调
+                            //return false 开启该代码可禁止点击该按钮关闭
+                        },
+                        success: function () {
+                            layui.form.val("project-pay-form", {
+                                "rid" : "n-" +  (layui.table.cache["payTable"].length + 1)
+                                ,"payNo": ""
+                                ,"pay": ""
+                                ,"payDate": ""
+                                ,"type": ""
+                                ,"payee": ""
+                            });
+                        }
+                    });
+                }
+
+            });
+
+
+            //点击明细行，弹出修改窗口
+            layui.table.on('row(payTable)', function(obj){
+
+                //标注选中样式
+                obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+
+                var rowData = obj.data;
+
+                layui.layer.open({
+                    // area: '700px',
+                    type: 1,
+                    title: '修改 - 收费明细：',
+                    content: layui.jquery("#project-pay-form"),
+                    btn: ['修改', '删除', '取消'],
+                    btnAlign: 'c',
+                    yes: function(index, layero) {
+                        //按钮 [保存] 的回调
+                        var formData = layui.form.val("project-pay-form");
+
+                        var oldData = layui.table.cache["payTable"];
+                        console.log(formData);
+                        // oldData.push(newRow);
+
+                        for (var i = 0, row; i < oldData.length; i++) {
+                            row = oldData[i];
+                            if (row.rid == formData.rid) {
+                                layui.jquery.extend(oldData[i], formData);
+                                break;
+                            }
+                        }
+
+                        layui.table.reload('payTable',{
+                            data: oldData
+                        });
+
+                        layui.layer.close(index);
+                    },
+                    btn2: function (index, layero) {
+                        //按钮 [删除] 的回调
+                        var formData = layui.form.val("project-pay-form");
+                        var oldData = layui.table.cache["payTable"];
+                        var tableArr = [];
+                        for (var i = 0, row; i < oldData.length; i++) {
+                            row = oldData[i];
+                            if (row.rid === formData.rid) {
+                                oldData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
+                                break;
+                            }
+                        }
+                        tableArr = oldData;
+
+                        layui.table.reload('payTable',{
+                            data: tableArr
+                        });
+
+                        layui.layer.close(index);
+                    },
+                    cancel: function(){
+                        //右上角关闭回调
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    },
+                    success: function () {
+                        layui.form.val("project-pay-form", {
+                            "id" : rowData.id
+                            ,"rid": rowData.rid
+                            ,"payNo": rowData.payNo
+                            ,"pay": rowData.pay
+                            ,"payDate": rowData.payDate
+                            ,"type": rowData.type
+                            ,"payee": rowData.payee
+                        });
+                    }
+                });
+
+            });
+
         }
 
     });
@@ -489,7 +617,7 @@ function editProject(pid) {
 
                     //收费明细
                     layui.table.render({
-                        elem: '#feeTable'
+                        elem: '#payTable'
                         , cols: [[ //标题栏
                             {field: 'id', title: 'ID', sort: true}
                             , {field: 'payNo', title: '收款单号'}
@@ -503,7 +631,7 @@ function editProject(pid) {
 
                     //数据绑定结束
 
-                    // layui.table.on('edit(feeTable)', function(obj){
+                    // layui.table.on('edit(payTable)', function(obj){
                     //     var value = obj.value //得到修改后的值
                     //         ,data = obj.data //得到所在行所有键值
                     //         ,field = obj.field; //得到字段
@@ -512,7 +640,7 @@ function editProject(pid) {
                     //
                     // });
 
-                    layui.table.on('tool(feeTable)', function (obj) {
+                    layui.table.on('tool(payTable)', function (obj) {
                         var newdata = {};
                         if (obj.event === 'date') {
                             var field = layui.jquery(this).data('field');
