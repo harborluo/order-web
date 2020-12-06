@@ -386,7 +386,7 @@ function bindChildTableEvent() {
                 var tableData = layui.table.cache["detailTable"];
                 // var tableArr = [];
                 for (var i = 0, row; i < tableData.length; i++) {
-                    row = oldData[i];
+                    row = tableData[i];
                     if (  row.id == formData.id ) {
                         tableData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
                         break;

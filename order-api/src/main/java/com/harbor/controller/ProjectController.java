@@ -24,9 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by harbor on 2020/3/28.
@@ -152,9 +150,87 @@ public class ProjectController {
         Project project = new Project();
         BeanUtils.copyProperties(projectDomain, project);
 
+        List<ProjectDetail> details = detailService.listByProjectId(project.getId());
+        Set<Integer> detailsIdSet = new HashSet<>();
+        details.stream().forEach(d -> detailsIdSet.add(d.getId()));
 
-//        detailService.removeByIds();
-//        payService.removeByIds();
+        log.info("process details create, update and delete");
+        List<ProjectDetailDomain> projectDetailDomains = projectDomain.getDetails();
+
+        if (projectDetailDomains != null && projectDetailDomains.size() > 0){
+            List<ProjectDetail> createList = new ArrayList<>();
+            List<ProjectDetail> updateList = new ArrayList<>();
+            for(ProjectDetailDomain detailDomain : projectDetailDomains) {
+                ProjectDetail detail = new ProjectDetail();
+                BeanUtils.copyProperties(detailDomain, detail);
+                detail.setProjectId(project.getId());
+
+                if (detailDomain.getId() == 0) {
+                    createList.add(detail);
+                } else {
+                    updateList.add(detail);
+                    detailsIdSet.remove(detail.getId());
+                }
+
+            }
+
+            if (createList.isEmpty() == false) {
+                detailService.saveBatch(createList);
+                log.info("{} rows details created.", createList.size());
+            }
+
+            if (updateList.isEmpty() == false) {
+                detailService.updateBatchById(updateList);
+                log.info("{} rows details updated.", updateList.size());
+            }
+
+            if (detailsIdSet.isEmpty() == false) {
+                detailService.removeByIds(detailsIdSet);
+                log.info("{} rows details removed.", detailsIdSet.size());
+            }
+
+        }
+
+        log.info("process pays create, update and delete");
+        List<ProjectPayDomain> projectPayDomains = projectDomain.getPays();
+
+        List<ProjectDetail> pays = detailService.listByProjectId(project.getId());
+        Set<Integer> paysIdSet = new HashSet<>();
+        pays.parallelStream().forEach(p -> paysIdSet.add(p.getId()));
+
+        if (projectPayDomains != null && projectPayDomains.size() > 0){
+            List<ProjectPay> createList = new ArrayList<>();
+            List<ProjectPay> updateList = new ArrayList<>();
+            for(ProjectPayDomain payDomain  : projectPayDomains) {
+                ProjectPay pay = new ProjectPay();
+                BeanUtils.copyProperties(payDomain, pay);
+                pay.setProjectId(project.getId());
+
+                if (pay.getId() == 0) {
+                    createList.add(pay);
+                } else {
+                    updateList.add(pay);
+                    paysIdSet.remove(pay.getId());
+                }
+
+            }
+
+            if (createList.isEmpty() == false) {
+                payService.saveBatch(createList);
+                log.info("{} rows pays created.", createList.size());
+            }
+
+            if (updateList.isEmpty() == false) {
+                payService.updateBatchById(updateList);
+                log.info("{} rows pays updated.", updateList.size());
+            }
+
+            if (paysIdSet.isEmpty() == false) {
+                payService.removeByIds(paysIdSet);
+                log.info("{} rows pays removed.", paysIdSet.size());
+            }
+
+        }
 
         service.updateById(project);
         return  ResponseResult.ok("修改成功！");
