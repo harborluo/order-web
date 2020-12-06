@@ -359,7 +359,7 @@ function bindChildTableEvent() {
             btn: ['修改', '删除', '取消'],
             btnAlign: 'c',
             yes: function(index, layero) {
-                //按钮 [保存] 的回调
+                //按钮 [修改] 的回调
                 var formData = layui.form.val("project-detail-form");
 
                 var oldData = layui.table.cache["detailTable"];
@@ -383,19 +383,19 @@ function bindChildTableEvent() {
             btn2: function (index, layero) {
                 //按钮 [删除] 的回调
                 var formData = layui.form.val("project-detail-form");
-                var oldData = layui.table.cache["detailTable"];
-                var tableArr = [];
-                for (var i = 0, row; i < oldData.length; i++) {
+                var tableData = layui.table.cache["detailTable"];
+                // var tableArr = [];
+                for (var i = 0, row; i < tableData.length; i++) {
                     row = oldData[i];
                     if (  row.id == formData.id ) {
-                        oldData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
+                        tableData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
                         break;
                     }
                 }
-                tableArr = oldData;
+                // tableArr = oldData;
 
                 layui.table.reload('detailTable',{
-                    data: tableArr
+                    data: tableData
                 });
 
                 layui.layer.close(index);
@@ -484,7 +484,7 @@ function bindChildTableEvent() {
             btn: ['修改', '删除', '取消'],
             btnAlign: 'c',
             yes: function(index, layero) {
-                //按钮 [保存] 的回调
+                //按钮 [修改] 的回调
                 var formData = layui.form.val("project-pay-form");
 
                 var oldData = layui.table.cache["payTable"];
@@ -508,19 +508,19 @@ function bindChildTableEvent() {
             btn2: function (index, layero) {
                 //按钮 [删除] 的回调
                 var formData = layui.form.val("project-pay-form");
-                var oldData = layui.table.cache["payTable"];
-                var tableArr = [];
-                for (var i = 0, row; i < oldData.length; i++) {
-                    row = oldData[i];
+                var tableData = layui.table.cache["payTable"];
+                // var tableArr = [];
+                for (var i = 0, row; i < tableData.length; i++) {
+                    row = tableData[i];
                     if (row.id === formData.id) {
-                        oldData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
+                        tableData.splice(i, 1); //移除后后造成数组下标索引发生变化，所以下面需要i--
                         break;
                     }
                 }
-                tableArr = oldData;
+                // tableArr = oldData;
 
                 layui.table.reload('payTable',{
-                    data: tableArr
+                    data: tableData
                 });
 
                 layui.layer.close(index);
