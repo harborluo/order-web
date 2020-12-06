@@ -4,15 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.harbor.config.DateJsonDeserialize;
-import com.harbor.config.DateJsonSerialize;
+
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @TableName(value = "project")
@@ -24,8 +20,6 @@ public class Project {
     @TableField(value = "name")
     private String name;
 
-    @JsonDeserialize(using = DateJsonDeserialize.class)
-    @JsonSerialize(using = DateJsonSerialize.class)
     @TableField(value = "project_date")
     private Date projectDate;
 
