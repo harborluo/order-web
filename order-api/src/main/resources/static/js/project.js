@@ -184,11 +184,24 @@ function delProject() {
 
 function addProject() {
 
+    // var formCopy = layui.jquery("#project-form").clone();
+    // formCopy.show();
+
     layer.open({
         area: '800px',
         type: 1,
         title: '添加记录：',
         content: layui.jquery("#project-form"),
+        // content: layer.tab({
+        //     area: ['400px', '300px'],
+        //     tab: [{
+        //         title: 'TAB1',
+        //         content: '内容1'
+        //     }, {
+        //         title: 'TAB2',
+        //         content: '内容2'
+        //     }]
+        // }),
         btn: ['保存', '取消'],
         btnAlign: 'c',
         yes: function(index, layero){
