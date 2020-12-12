@@ -557,6 +557,21 @@ function bindChildTableEvent() {
 
     });
 
+    //设定第一个tab选中
+    var tabs = layui.jquery("#project-form");
+    var tabsTitle = tabs.find(".layui-tab-title > li")
+    var tabsContent = tabs.find(".layui-tab-content .layui-tab-item");
+
+    layui.jquery.each(tabsTitle, function (idx, ele){
+        if(idx==0){
+            layui.jquery(this).addClass("layui-this");
+            tabsContent.eq(idx).addClass("layui-show");
+        } else {
+            layui.jquery(this).removeClass("layui-this");
+            tabsContent.eq(idx).removeClass("layui-show");
+        }
+    });
+
 }
 
 function editProject(pid) {
