@@ -48,6 +48,13 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
+    public List<Project> queryProject(String projectFromDate, String projectToDate, String payFromDate, String payToDate, String serialNo, String isValidate, String isDealDone) {
+        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
+        entityWrapper.orderByDesc("project_date");
+        return baseMapper.selectList(entityWrapper);
+    }
+
+    @Override
     public Map<String, Object> staticProjectCost(String projectFromDate, String projectToDate,
                                                  String payFromDate, String payToDate,
                                                  String serialNo,

@@ -73,6 +73,20 @@ public class ProjectController {
         return  response;
     }
 
+    @GetMapping("/projects/export")
+    public ResponseEntity exportProject(
+            @RequestParam(value = "projectFromDate", required = false) String projectFromDate,
+            @RequestParam(value = "projectToDate", required = false) String projectToDate,
+            @RequestParam(value = "payFromDate", required = false) String payFromDate,
+            @RequestParam(value = "payToDate", required = false) String payToDate,
+            @RequestParam(value = "serialNo", required = false) String serialNo,
+            @RequestParam(value = "isDealDone", required = false) String isDealDone,
+            @RequestParam(value = "isValidate", required = false) String isValidate){
+        List<Project> list = service.queryProject(projectFromDate, projectToDate,
+                payFromDate, payToDate, serialNo, isValidate, isDealDone);
+        return ResponseEntity.ok(list);
+    }
+
     @GetMapping("/project/{id}")
     public ResponseResult<ProjectDomain> retrieveProjectById(@PathVariable("id") int id){
 

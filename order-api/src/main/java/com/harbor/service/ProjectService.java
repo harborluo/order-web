@@ -24,6 +24,12 @@ public interface ProjectService extends IService<Project> {
                                       String isValidate,
                                       String isDealDone);
 
+    List<Project> queryProject(String projectFromDate, String projectToDate,
+                                      String payFromDate, String payToDate,
+                                      String serialNo,
+                                      String isValidate,
+                                      String isDealDone);
+
     void removeByIds(List<Integer> ids);
 
     Map<String, Object> staticProjectCost(String projectFromDate, String projectToDate,

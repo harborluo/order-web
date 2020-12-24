@@ -131,27 +131,60 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
 });
 
 function exportProjects() {
+    var $ = layui.jquery;
+
+    var exportUrl = "/projects/export?serialNo=" + $("#serialNo").val();
+        exportUrl += "&isDealDone=" + $("#isOK").val();
+    exportUrl += "&isValidate=" + $('#isValidate').is(':checked') ? "N" : "Y";
+    exportUrl += "&dateType=" + $("#dateType").val();
+    exportUrl += "&projectFromDate=" + $("#dateType").val() == "projectDate" ? $("#beginDate").val() : "";
+    exportUrl += "&projectToDate=" + $("#dateType").val() == "projectDate" ? $("#endDate").val() : "";
+    exportUrl += "&payFromDate=" + $("#dateType").val() == "payDate" ? $("#endDate").val() : "";
+    exportUrl += "&payToDate=" + $("#dateType").val() == "payDate" ? $("#endDate").val() : "";
+
+    console.log(exportUrl);
+
+
     layui.use(['jquery', 'excel', 'layer'], function() {
-        var $ = layui.jquery;
+        // var $ = layui.jquery;
         var excel = layui.excel;
         $.ajax({
-            url: '/projects',
+            url: exportUrl,
             dataType: 'json',
             success: function(res) {
                 // 假如返回的 res.data 是需要导出的列表数据
-                console.log(res.data);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
+                console.log(res);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
                 // 1. 数组头部新增表头
-                // res.data.unshift({name: '用户名',sex: '男', age: '年龄'});
+
+                var data = res;
+
+                data.unshift({name: '工程名称',serialNo: '单号', projectDate: '工程日期',cost: '工程总价',
+                    costPaid: '收款情况',clientName: '客户',clientPhone: '电话',clientAddress: '地址'});
                 // 2. 如果需要调整顺序，请执行梳理函数
-                var data = excel.filterExportData(res.data, [
-                    'name',
-                    'sex',
-                    'age',
-                ]);
+                var data = excel.filterExportData(res, {
+                    name: 'name',serialNo: 'serialNo', projectDate: 'projectDate',cost: 'cost',
+                    costPaid:function(value, line, data) {
+                        return {
+                            v: line.cost === line.costPaid ? "OK" : (line.costPaid === null ? "未收款" :value),
+                            s:{// s 代表样式
+                                alignment: {
+                                    horizontal: 'center',
+                                    vertical: 'center',
+                                }
+                                // font: { sz: 14, bold: true, color: { rgb: "FFFFFF" } },
+                                // fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FF0000" }}
+                            },
+                        };
+                    }
+                    ,clientName: 'clientName',clientPhone: 'clientPhone',clientAddress: 'clientAddress'
+                });
                 // 3. 执行导出函数，系统会弹出弹框
+                var rightNow = new Date();
+                var res = rightNow.toISOString().slice(0,10).replace(/-/g,"");
+
                 excel.exportExcel({
                     sheet1: data
-                }, '导出接口数据.xlsx', 'xlsx');
+                }, '导出数据_'+res+'.xlsx', 'xlsx');
             }
         });
     });
