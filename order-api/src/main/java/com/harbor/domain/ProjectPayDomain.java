@@ -38,4 +38,7 @@ public class ProjectPayDomain {
     @NotNull(message = "收款单号不能为空.")
     private String payNo;
 
+    public BigDecimal getPay() {
+        return pay == null ? new BigDecimal(0) : pay;
+    }
 }

@@ -24,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -114,6 +115,15 @@ public class ProjectController {
     public ResponseResult<String> createProject(@Validated @RequestBody ProjectDomain projectDomain){
         Project project = new Project();
         BeanUtils.copyProperties(projectDomain, project);
+
+        if (projectDomain.getPays() != null && projectDomain.getPays().size() > 0) {
+            BigDecimal total  = new BigDecimal(0);
+            for (ProjectPayDomain payDomain : projectDomain.getPays()) {
+                total = total.add(payDomain.getPay());
+            }
+            project.setCostPaid(total);
+        }
+
         service.save(project);
 
         if (projectDomain.getDetails() != null && projectDomain.getDetails().size() > 0) {
@@ -149,6 +159,14 @@ public class ProjectController {
 
         Project project = new Project();
         BeanUtils.copyProperties(projectDomain, project);
+
+        if (projectDomain.getPays() != null && projectDomain.getPays().size() > 0) {
+            BigDecimal total  = new BigDecimal(0);
+            for (ProjectPayDomain payDomain : projectDomain.getPays()) {
+                total = total.add(payDomain.getPay());
+            }
+            project.setCostPaid(total);
+        }
 
         List<ProjectDetail> details = detailService.listByProjectId(project.getId());
         Set<Integer> detailsIdSet = new HashSet<>();

@@ -123,11 +123,39 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
             delProject();
         } else if(obj.event === 'exp'){
             console.log('excel export');
+            exportProjects();
         }
 
     });
 
 });
+
+function exportProjects() {
+    layui.use(['jquery', 'excel', 'layer'], function() {
+        var $ = layui.jquery;
+        var excel = layui.excel;
+        $.ajax({
+            url: '/projects',
+            dataType: 'json',
+            success: function(res) {
+                // 假如返回的 res.data 是需要导出的列表数据
+                console.log(res.data);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
+                // 1. 数组头部新增表头
+                // res.data.unshift({name: '用户名',sex: '男', age: '年龄'});
+                // 2. 如果需要调整顺序，请执行梳理函数
+                var data = excel.filterExportData(res.data, [
+                    'name',
+                    'sex',
+                    'age',
+                ]);
+                // 3. 执行导出函数，系统会弹出弹框
+                excel.exportExcel({
+                    sheet1: data
+                }, '导出接口数据.xlsx', 'xlsx');
+            }
+        });
+    });
+}
 
 function searchProject() {
     console.info("searchBtn clicked.");
