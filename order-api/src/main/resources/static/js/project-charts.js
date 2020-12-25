@@ -2,9 +2,9 @@ layui.config({
     echarts: 'layui/lay/ext/echarts.js'
 });
 
-layui.use(['element', 'jquery', 'echarts'], function() {
+layui.use(['element', 'jquery', 'echarts', 'layer'], function() {
 
-    var chartZhu = layui.echarts.init(document.getElementById('project-charts'));
+    var projectChart = layui.echarts.init(document.getElementById('project-charts'));
     //指定图表配置项和数据
     var optionchart = {
         title: {
@@ -128,7 +128,7 @@ layui.use(['element', 'jquery', 'echarts'], function() {
 
             for (var item of res) {
                 yearData.push(item.costYear);
-                costData.push(item.costPaid);
+                costData.push((item.costPaid/10000).toFixed(2));
             }
 
             var projectCostChart = {
@@ -137,7 +137,7 @@ layui.use(['element', 'jquery', 'echarts'], function() {
                 },
                 tooltip: {},
                 legend: {
-                    data: ['年份']
+                    data: ['收款金额(万元)']
                 },
                 xAxis: {
                     data: yearData
@@ -146,7 +146,7 @@ layui.use(['element', 'jquery', 'echarts'], function() {
                     type: 'value'
                 },
                 series: [{
-                    name: '收款金额',
+                    name: '收款金额(万元)',
                     type: 'bar', //柱状
                     data: costData,
                     itemStyle: {
@@ -157,7 +157,13 @@ layui.use(['element', 'jquery', 'echarts'], function() {
                 }]
             };
 
-            chartZhu.setOption(projectCostChart, true);
+            projectChart.setOption(projectCostChart, true);
+
+            projectChart.on('click', function (params) {
+                // window.open('https://www.baidu.com/s?wd=' + encodeURIComponent(params.name));
+                //getWorkTimeAtMonth(year + "-" + encodeURIComponent(params.name), encodeURIComponent(params.name));
+                console.log("单击了: " + params.name + " = " + params.value + " x轴标签");
+            });
 
         }
     });
