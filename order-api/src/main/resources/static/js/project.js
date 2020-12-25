@@ -178,10 +178,10 @@ function exportProjects() {
                     }
                     ,clientName: 'clientName',clientPhone: 'clientPhone',clientAddress: 'clientAddress'
                 });
+
                 // 3. 执行导出函数，系统会弹出弹框
                 var rightNow = new Date();
-                var res = rightNow.toISOString().slice(0,10).replace(/-/g,"");
-
+                var res = rightNow.toISOString().slice(0,10).replace(/-/g,".");
                 excel.exportExcel({
                     sheet1: data
                 }, '导出数据_'+res+'.xlsx', 'xlsx');
