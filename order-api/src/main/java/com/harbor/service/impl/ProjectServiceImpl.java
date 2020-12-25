@@ -9,6 +9,7 @@ import com.harbor.entity.Project;
 import com.harbor.mapper.ProjectMapper;
 import com.harbor.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -111,5 +112,16 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     @Override
     public void removeByIds(List<Integer> ids) {
         baseMapper.deleteBatchIds(ids);
+    }
+
+
+    @Override
+    public List<Map<String, Object>> staticProjectCost(){
+        return baseMapper.staticProjectCost();
+    }
+
+    @Override
+    public List<Map<String, Object>> staticProjectCostByYear(int year) {
+        return baseMapper.staticProjectCostByYear(year);
     }
 }

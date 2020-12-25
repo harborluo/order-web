@@ -37,4 +37,8 @@ public interface ProjectService extends IService<Project> {
                                           String serialNo,
                                           String isValidate,
                                           String isDealDone);
+
+    List<Map<String,Object>> staticProjectCost();
+
+    List<Map<String,Object>> staticProjectCostByYear(int year);
 }
