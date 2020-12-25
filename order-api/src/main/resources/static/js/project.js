@@ -51,7 +51,7 @@ layui.use(['jquery', 'table', 'laypage', 'laydate'], function(){
         // skin: 'row' //行边框风格
         elem: '#demoTable'
         ,url:'/projects'
-        ,defaultToolbar: ['filter', 'print', 'exports', {
+        ,defaultToolbar: ['filter', 'print', /*'exports',*/{
             title: '提示' //标题
             ,layEvent: 'LAYTABLE_TIPS' //事件名，用于 toolbar 事件中使用
             ,icon: 'layui-icon-tips' //图标类名
