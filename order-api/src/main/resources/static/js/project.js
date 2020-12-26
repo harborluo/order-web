@@ -322,6 +322,7 @@ function addProject() {
                 ,"beginDate": ""
                 ,"finishDate": ""
                 ,"serialNo": ""
+                ,"clientName": ""
                 ,"clientPhone": ""
                 ,"clientAddress": ""
                 ,"note": ""
@@ -713,6 +714,7 @@ function editProject(pid) {
                         ,"beginDate": response.data.beginDate
                         ,"finishDate": response.data.finishDate
                         ,"serialNo": response.data.serialNo
+                        ,"clientName": response.data.clientName
                         ,"clientPhone": response.data.clientPhone
                         ,"clientAddress": response.data.clientAddress
                         ,"note": response.data.note
