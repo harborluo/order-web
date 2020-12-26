@@ -119,7 +119,8 @@ layui.use(['element', 'jquery', 'echarts', 'layer'], function() {
     // chartZhu.setOption(optionchartZhe, true);
 
     layui.jquery.ajax({
-        url: "/report?scope=all",
+        url: "/report/all",
+        type: 'get',
         dataType: 'json',
         success: function(res) {
 
@@ -163,6 +164,77 @@ layui.use(['element', 'jquery', 'echarts', 'layer'], function() {
                 // window.open('https://www.baidu.com/s?wd=' + encodeURIComponent(params.name));
                 //getWorkTimeAtMonth(year + "-" + encodeURIComponent(params.name), encodeURIComponent(params.name));
                 console.log("单击了: " + params.name + " = " + params.value + " x轴标签");
+
+                // layui.jquery("#report-chart").html('');
+                // layui.jquery("#report-chart").css({"height": "530px", "width": "800px"});
+
+                /////////////////////
+                layui.jquery.ajax({
+                    url: '/report/year?year=' + params.name,
+                    type: 'get',
+                    success: function (res) {
+                        layui.layer.open({
+                            area: '800px',
+                            type: 1,
+                            title: params.name + '年收款统计',
+                            content: layui.jquery("#report-chart"),
+                            btnAlign: 'c',
+                            btn: ['关闭'],
+                            yes: function(index, layero){
+                                layui.layer.close(index);
+                            },
+                            btn2: function(index, layero){
+                                //按钮 '取消' 的回调
+                                // return false;// 开启该代码可禁止点击该按钮关闭
+                            }
+                            ,cancel: function(){
+                                //右上角关闭回调
+                                //return false 开启该代码可禁止点击该按钮关闭
+                            }
+                            , success : function () {
+                                //数据绑定
+                                var yearChart = layui.echarts.init(document.getElementById('report-chart'));
+
+                                var monthData = [];
+                                var monthCostData= [];
+
+                                for (var item of res) {
+                                    monthData.push(item.costMonth);
+                                    monthCostData.push((item.costPaid/10000).toFixed(2));
+                                }
+
+                                var monthChartOption = {
+                                    title: {
+                                        text: params.name + '年收款统计'
+                                    },
+                                    tooltip: {},
+                                    legend: { //顶部显示 与series中的数据类型的name一致
+                                        data: ['月收款(万元)']
+                                    },
+                                    xAxis: {
+                                        // type: 'category',
+                                        // boundaryGap: false, //从起点开始
+                                        data: monthData
+                                    },
+                                    yAxis: {
+                                        type: 'value'
+                                    },
+                                    series: [{
+                                        name: '月收款(万元)',
+                                        type: 'line', //线性
+                                        data: monthCostData,
+                                    }]
+                                };
+
+                                yearChart.setOption(monthChartOption, true);
+
+                            }
+                        });
+                    }
+                });
+
+                ///////////
+
             });
 
         }

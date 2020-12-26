@@ -24,19 +24,23 @@ public class ReportController {
     @Autowired
     ProjectService projectService;
 
-    @GetMapping("/report")
-    public ResponseEntity staticByMetirc(@Pattern(regexp = "^(all|year)$") @RequestParam(name = "scope", defaultValue = "all") String scope
-                                         ,@Min(2000) @Max(2199) @RequestParam(name = "value", defaultValue = "2008") int year) {
+    @GetMapping("/report/all")
+    public ResponseEntity staticByMetirc() {
 
-        List<Map<String,Object>> result = new ArrayList<>();
+        List<Map<String,Object>> result = this.projectService.staticProjectCost();
 
-        if("all".equals(scope)) {
-            result = this.projectService.staticProjectCost();
-        } else if("year".equals(scope)){
-            result = this.projectService.staticProjectCostByYear(year);
-        }
+        log.info("count of metric by year is {}", result.size());
 
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/report/year")
+    public ResponseEntity staticByYear(@Min(2000) @Max(2199) @RequestParam(name = "year", defaultValue = "2008") int year) {
+
+        List<Map<String,Object>> result = result = this.projectService.staticProjectCostByYear(year);
+
+        log.info("count of metric for year {} by month is {}", year, result.size());
+
+        return ResponseEntity.ok(result);
+    }
 }

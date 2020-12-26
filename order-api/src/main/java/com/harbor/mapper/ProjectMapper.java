@@ -14,7 +14,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
     @Select("select sum(cost_paid) costPaid, year(project_date) costYear from project group by year(project_date)")
     List<Map<String,Object>> staticProjectCost();
 
-    @Select("select sum(cost_paid) cost_paid, month(project_date) cost_month from project where year(project_date)=#{year} group by month(project_date)")
+    @Select("select sum(cost_paid) costPaid, month(project_date) costMonth from project where year(project_date)=#{year} group by month(project_date)")
     List<Map<String,Object>> staticProjectCostByYear(int year);
 
 }
