@@ -331,6 +331,8 @@ function addProject() {
             //项目明细
             layui.table.render({
                 elem: '#detailTable'
+				,page: false
+				,limit: Number.MAX_VALUE
                 ,defaultToolbar: [] //这里在右边显示
                 ,toolbar: '#toolbarDetail'
                 , cols: [[ //标题栏
@@ -349,6 +351,8 @@ function addProject() {
             //收费明细
             layui.table.render({
                 elem: '#payTable'
+				,page: false
+				,limit: Number.MAX_VALUE
                 ,defaultToolbar: [] //这里在右边显示
                 ,toolbar: '#toolbarPay'
                 , cols: [[ //标题栏
@@ -723,6 +727,8 @@ function editProject(pid) {
                     //项目明细
                     layui.table.render({
                         elem: '#detailTable'
+						,page: false
+						,limit: Number.MAX_VALUE
                         ,defaultToolbar: [] //这里在右边显示
                         ,toolbar: '#toolbarDetail'
                         , cols: [[ //标题栏
@@ -740,6 +746,8 @@ function editProject(pid) {
                     //收费明细
                     layui.table.render({
                         elem: '#payTable'
+						,page: false
+						,limit: Number.MAX_VALUE
                         ,defaultToolbar: [] //这里在右边显示
                         ,toolbar: '#toolbarPay'
                         , cols: [[ //标题栏
