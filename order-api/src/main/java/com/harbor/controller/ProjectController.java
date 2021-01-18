@@ -53,14 +53,15 @@ public class ProjectController {
             @RequestParam(value = "payFromDate", required = false) String payFromDate,
             @RequestParam(value = "payToDate", required = false) String payToDate,
             @RequestParam(value = "serialNo", required = false) String serialNo,
+			@RequestParam(value = "projectName", required = false) String projectName,
             @RequestParam(value = "isDealDone", required = false) String isDealDone,
             @RequestParam(value = "isValidate", required = false) String isValidate){
 
         IPage<Project> result = service.queryProjectByPage(page, pageSize, projectFromDate, projectToDate,
-                payFromDate, payToDate, serialNo, isValidate, isDealDone);
+                payFromDate, payToDate, serialNo, projectName, isValidate, isDealDone);
 
         Map<String,Object> sumMap = service.staticProjectCost(projectFromDate, projectToDate,
-                payFromDate, payToDate, serialNo, isValidate, isDealDone);
+                payFromDate, payToDate, serialNo, projectName, isValidate, isDealDone);
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -80,10 +81,11 @@ public class ProjectController {
             @RequestParam(value = "payFromDate", required = false) String payFromDate,
             @RequestParam(value = "payToDate", required = false) String payToDate,
             @RequestParam(value = "serialNo", required = false) String serialNo,
+			@RequestParam(value = "projectName", required = false) String projectName,
             @RequestParam(value = "isDealDone", required = false) String isDealDone,
             @RequestParam(value = "isValidate", required = false) String isValidate){
         List<Project> list = service.queryProject(projectFromDate, projectToDate,
-                payFromDate, payToDate, serialNo, isValidate, isDealDone);
+                payFromDate, payToDate, serialNo, projectName, isValidate, isDealDone);
         return ResponseEntity.ok(list);
     }
 

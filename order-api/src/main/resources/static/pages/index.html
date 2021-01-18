@@ -11,8 +11,8 @@
 <script src="layui/lay/ext/excel.min.js"></script>
 <script src="layui/lay/ext/echarts.js"></script>
 
-<script src="js/project.js"></script>
-<script src="js/project-charts.js"></script>
+<script src="js/project.js?v=2021.01.18"></script>
+<script src="js/project-charts.js?v=2021.01.13"></script>
 
 <div class="layui-tab" id="project-form" style="display:none;height: 530px; width:800px">
     <ul class="layui-tab-title">
@@ -306,6 +306,11 @@
             <form class="layui-form" action="" lay-filter="example">
 
                 <div class="layui-form-item">
+				
+				    <label class="layui-form-label">工程名称：</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="projectName" id="projectName" autocomplete="off" value="">
+                    </div>
 
                     <label class="layui-form-label">单号：</label>
                     <div class="layui-input-inline">

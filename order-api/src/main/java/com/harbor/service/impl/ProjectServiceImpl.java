@@ -33,13 +33,14 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                                              String projectFromDate, String projectToDate,
                                              String payFromDate, String payToDate,
                                              String serialNo,
+											 String projectName,
                                              String isValidate,
                                              String isDealDone) {
 
         log.info("page: {}, pageSize: {}, projectFromDate: {}, projectToDate: {}, payFromDate: {}, payToDate: {}, serialNo: {}, isValidate: {}, isDealDone: {}.",
                 page, pageSize, projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
 
-        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
+        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, projectName, isValidate, isDealDone);
 
         entityWrapper.orderByDesc("project_date");
 
@@ -49,8 +50,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public List<Project> queryProject(String projectFromDate, String projectToDate, String payFromDate, String payToDate, String serialNo, String isValidate, String isDealDone) {
-        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
+    public List<Project> queryProject(String projectFromDate, String projectToDate, String payFromDate, String payToDate, String serialNo, String projectName, String isValidate, String isDealDone) {
+        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, projectName, isValidate, isDealDone);
         entityWrapper.orderByDesc("project_date");
         return baseMapper.selectList(entityWrapper);
     }
@@ -59,10 +60,11 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public Map<String, Object> staticProjectCost(String projectFromDate, String projectToDate,
                                                  String payFromDate, String payToDate,
                                                  String serialNo,
+												 String projectName,
                                                  String isValidate,
                                                  String isDealDone) {
 
-        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, isValidate, isDealDone);
+        QueryWrapper<Project> entityWrapper = buildMapper(projectFromDate, projectToDate, payFromDate, payToDate, serialNo, projectName, isValidate, isDealDone);
 
         entityWrapper.select("ifnull(sum(ifnull(cost,0)),0) as costTotal", "ifnull(sum(ifnull(cost_paid,0)),0) as costPaidTotal");
         return baseMapper.selectMaps(entityWrapper).get(0);
@@ -71,6 +73,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     private QueryWrapper<Project> buildMapper(String projectFromDate, String projectToDate,
                                     String payFromDate, String payToDate,
                                     String serialNo,
+									String projectName,
                                     String isValidate,
                                     String isDealDone){
 
@@ -94,6 +97,10 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
         if (!StringUtils.isEmpty(serialNo)){
             entityWrapper.like("serrial_no", "%" + serialNo + "%");
+        }
+		
+		if (!StringUtils.isEmpty(projectName)){
+            entityWrapper.like("name", "%" + projectName + "%");
         }
 
         if ("N".equals(isValidate)) {

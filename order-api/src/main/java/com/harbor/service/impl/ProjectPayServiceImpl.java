@@ -24,6 +24,7 @@ public class ProjectPayServiceImpl extends ServiceImpl<ProjectPayMapper, Project
 
         queryWrapper.eq("project_id", projectId);
         queryWrapper.select("*");
+		queryWrapper.orderByDesc("pay_date");
         return this.baseMapper.selectList(queryWrapper);
     }
 

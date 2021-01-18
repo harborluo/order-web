@@ -21,12 +21,14 @@ public interface ProjectService extends IService<Project> {
                                       String projectFromDate, String projectToDate,
                                       String payFromDate, String payToDate,
                                       String serialNo,
+									  String projectName,
                                       String isValidate,
                                       String isDealDone);
 
     List<Project> queryProject(String projectFromDate, String projectToDate,
                                       String payFromDate, String payToDate,
                                       String serialNo,
+									  String projectName,
                                       String isValidate,
                                       String isDealDone);
 
@@ -35,6 +37,7 @@ public interface ProjectService extends IService<Project> {
     Map<String, Object> staticProjectCost(String projectFromDate, String projectToDate,
                                           String payFromDate, String payToDate,
                                           String serialNo,
+										  String projectName,
                                           String isValidate,
                                           String isDealDone);
 

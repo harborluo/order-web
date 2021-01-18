@@ -134,7 +134,8 @@ function exportProjects() {
     var $ = layui.jquery;
 
     var exportUrl = "/projects/export?serialNo=" + $("#serialNo").val();
-        exportUrl += "&isDealDone=" + $("#isOK").val();
+	exportUrl += "&projectName=" + $("#projectName").val();
+    exportUrl += "&isDealDone=" + $("#isOK").val();
     exportUrl += "&isValidate=" + $('#isValidate').is(':checked') ? "N" : "Y";
     exportUrl += "&dateType=" + $("#dateType").val();
     exportUrl += "&projectFromDate=" + $("#dateType").val() == "projectDate" ? $("#beginDate").val() : "";
@@ -196,6 +197,7 @@ function searchProject() {
     layui.table.reload('demoTable', {
         where: {
             // page: 1,
+			projectName: $("#projectName").val(),
             serialNo: $("#serialNo").val(),
             isDealDone: $("#isOK").val(),
             isValidate: $('#isValidate').is(':checked') ? "N" : "Y",
